@@ -1,9 +1,22 @@
+require './lib/ship'
 require './lib/cell.rb'
 
 RSpec.describe Cell do
   it 'exists' do
-    cell_1 = Cell.new("B4")
+    cell = Cell.new("B4")
 
-    expect(cell_1).to be_a(Cell)
+    expect(cell).to be_a(Cell)
+  end
+
+  it 'can show the coordinates of the cell' do
+    cell = Cell.new('B4')
+
+    expect(cell.coordinate).to eq('B4')
+  end
+
+  it 'has no ship by default' do
+    cell = Cell.new('B4')
+
+    expect(cell.ship).to eq(nil)
   end
 end
