@@ -1,10 +1,10 @@
 require './lib/ship'
-require './lib/cell.rb'
+require './lib/cell'
 
 RSpec.describe Cell do
-  context 'Create cell'do
+  context 'Create cell' do
     it 'exists' do
-      cell = Cell.new("B4")
+      cell = Cell.new('B4')
 
       expect(cell).to be_a(Cell)
     end
@@ -27,22 +27,25 @@ RSpec.describe Cell do
       expect(cell.empty?).to be true
     end
   end
+end
 
 RSpec.describe Cell do
   context 'Placing ship' do
     it 'can create a ship' do
-      cell = Cell.new("B4")
-      cruiser = Ship.new("Cruiser", 3)
+      cell = Cell.new('B4')
+      cruiser = Ship.new('Cruiser', 3)
 
       expect(cruiser).to be_a(Ship)
     end
 
     it 'can place a ship' do
-      cell = Cell.new("B4")
-      cruiser = Ship.new("Cruiser", 3)
+      cell = Cell.new('B4')
+      cruiser = Ship.new('Cruiser', 3)
+
       cell.place_ship(cruiser)
 
       expect(cell.ship).to eq(cruiser)
+      expect(cell.empty?).to be false
     end
   end
 end
