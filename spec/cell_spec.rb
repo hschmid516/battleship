@@ -2,27 +2,47 @@ require './lib/ship'
 require './lib/cell.rb'
 
 RSpec.describe Cell do
-  it 'exists' do
-    cell = Cell.new("B4")
+  context 'Create cell'do
+    it 'exists' do
+      cell = Cell.new("B4")
 
-    expect(cell).to be_a(Cell)
+      expect(cell).to be_a(Cell)
+    end
+
+    it 'can show the coordinates of the cell' do
+      cell = Cell.new('B4')
+
+      expect(cell.coordinate).to eq('B4')
+    end
+
+    it 'has no ship by default' do
+      cell = Cell.new('B4')
+
+      expect(cell.ship).to eq(nil)
+    end
+
+    it 'is empty by default' do
+      cell = Cell.new('B4')
+
+      expect(cell.empty?).to be true
+    end
   end
 
-  it 'can show the coordinates of the cell' do
-    cell = Cell.new('B4')
+RSpec.describe Cell do
+  context 'Placing ship' do
+    it 'can create a ship' do
+      cell = Cell.new("B4")
+      cruiser = Ship.new("Cruiser", 3)
 
-    expect(cell.coordinate).to eq('B4')
-  end
+      expect(cruiser).to be_a(Ship)
+    end
 
-  it 'has no ship by default' do
-    cell = Cell.new('B4')
+    it 'can place a ship' do
+      cell = Cell.new("B4")
+      cruiser = Ship.new("Cruiser", 3)
+      cell.place_ship(cruiser)
 
-    expect(cell.ship).to eq(nil)
-  end
-
-  it 'is empty by default' do
-    cell = Cell.new('B4')
-
-    expect(cell.empty?).to be true
+      expect(cell.ship).to eq(cruiser)
+    end
   end
 end
