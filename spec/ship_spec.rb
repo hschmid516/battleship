@@ -1,9 +1,9 @@
 require './lib/ship'
 
-Rspec.describe Ship do
+RSpec.describe Ship do
   it 'exists' do
-    ship = Ship.new()
+    cruiser = Ship.new("Cruiser", 3)
 
-    expect(ship).to be_a(Ship)
+    expect(cruiser).to be_a(Ship)
   end
 end
