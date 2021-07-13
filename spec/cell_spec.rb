@@ -81,3 +81,59 @@ RSpec.describe Cell do
     end
   end
 end
+
+RSpec.describe Cell do
+  context 'Render cell' do
+    it 'renders as . by default' do
+      cell_1 = Cell.new('B4')
+
+      expect(cell_1.render).to eq('.')
+    end
+
+    it 'renders as M if fired upon and no ship' do
+      cell_1 = Cell.new('B4')
+
+      cell_1.fire_upon
+
+      expect(cell_1.render).to eq('M')
+    end
+
+    it 'renders as . if not fired upon' do
+      cell_2 = Cell.new('C3')
+      cruiser = Ship.new('Cruiser', 3)
+      cell_2.place_ship(cruiser)
+
+      expect(cell_2.render).to eq('.')
+    end
+
+    it 'renders as S if not fired upon and show_ship is true' do
+      cell_2 = Cell.new('C3')
+      cruiser = Ship.new('Cruiser', 3)
+      cell_2.place_ship(cruiser)
+
+      expect(cell_2.render(true)).to eq('S')
+    end
+
+    it 'renders as H if ship is hit' do
+      cell_2 = Cell.new('C3')
+      cruiser = Ship.new('Cruiser', 3)
+      cell_2.place_ship(cruiser)
+      cell_2.fire_upon
+
+      expect(cruiser.sunk?).to be false
+      expect(cell_2.render).to eq('H')
+    end
+
+    it 'renders as X if ship is sunk' do
+      cell_2 = Cell.new('C3')
+      cruiser = Ship.new('Cruiser', 3)
+      cell_2.place_ship(cruiser)
+      cell_2.fire_upon
+      cruiser.hit
+      cruiser.hit
+
+      expect(cruiser.sunk?).to be true
+      expect(cell_2.render).to eq('X')
+    end
+  end
+end
