@@ -49,3 +49,35 @@ RSpec.describe Cell do
     end
   end
 end
+
+RSpec.describe Cell do
+  context 'Taking fire' do
+    it 'is not fired upon by default' do
+      cell = Cell.new('B4')
+      cruiser = Ship.new('Cruiser', 3)
+      cell.place_ship(cruiser)
+
+      expect(cell.fired_upon?).to be false
+    end
+
+    it 'takes damgage when fired upon' do
+      cell = Cell.new('B4')
+      cruiser = Ship.new('Cruiser', 3)
+      cell.place_ship(cruiser)
+
+      cell.fire_upon
+
+      expect(cell.ship.health).to eq(2)
+    end
+
+    it 'shows that it was fired upon' do
+      cell = Cell.new('B4')
+      cruiser = Ship.new('Cruiser', 3)
+      cell.place_ship(cruiser)
+
+      cell.fire_upon
+
+      expect(cell.fired_upon?).to be true
+    end
+  end
+end
