@@ -121,6 +121,7 @@ RSpec.describe Cell do
       cell_2.fire_upon
       cruiser.sunk?
 
+      expect(cruiser.sunk?).to be false
       expect(cell_2.render).to eq('H')
     end
 
@@ -133,6 +134,7 @@ RSpec.describe Cell do
       cruiser.hit
       cruiser.sunk?
 
+      expect(cruiser.sunk?).to be true
       expect(cell_2.render).to eq('X')
     end
   end
