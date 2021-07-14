@@ -24,7 +24,11 @@ class Board
    }
   end
 
-  def validate_coordinate?(coord)
+  def valid_coordinate?(coord)
     cells.keys.to_s.include?(coord) == true
+  end
+
+  def valid_placement?(ship, coords)
+
   end
 end
