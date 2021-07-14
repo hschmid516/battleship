@@ -56,6 +56,18 @@ class Board
     end
   end
 
+  def same_letters?(coords)
+    coords.all? do |coord|
+      coord[0] == coords[0][0]
+    end
+  end
+
+  def same_numbers?(coords)
+    coords.all? do |coord|
+      coord[1] == coords[0][1]
+    end
+  end
+
   def valid_placement?(ship, coords)
 
   end
