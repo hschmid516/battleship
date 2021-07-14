@@ -23,4 +23,8 @@ class Board
      D4: Cell.new('D4')
    }
   end
+
+  def validate_coordinate?(coord)
+    cells.keys.to_s.include?(coord) == true
+  end
 end
