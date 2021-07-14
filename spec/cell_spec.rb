@@ -32,7 +32,7 @@ end
 RSpec.describe Cell do
   context 'Placing ship' do
     it 'can create a ship' do
-      cell = Cell.new('B4')
+      # cell = Cell.new('B4')
       cruiser = Ship.new('Cruiser', 3)
 
       expect(cruiser).to be_a(Ship)
