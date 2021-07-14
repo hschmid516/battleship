@@ -68,7 +68,12 @@ class Board
     end
   end
 
-  def valid_placement?(ship, coords)
+  def length_valid?(ship, coords)
+    ship.length == coords.length
+  end
 
+  def valid_placement?(ship, coords)
+    length_valid?(ship, coords) && numbers_consecutive?(coords) && same_letters?(coords) ||
+    length_valid?(ship, coords) && letters_consecutive?(coords) && same_numbers?(coords)
   end
 end
