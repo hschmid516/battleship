@@ -24,45 +24,29 @@ class Board
   def letters_consecutive?(coords)
     letter_range = []
 
-    letters = coords.map do |coord|
-      coord[0]
-    end
+    letters = coords.map { |coord| coord[0] }
 
-    ('A'..'D').each_cons(coords.length) do |letter|
-      letter_range << letter
-    end
+    ('A'..'D').each_cons(coords.length) { |letter| letter_range << letter }
 
-    letter_range.any? do |letter|
-      letter == letters
-    end
+    letter_range.any? { |letter| letter == letters }
   end
 
   def numbers_consecutive?(coords)
     num_range = []
 
-    numbers = coords.map do |coord|
-      coord[1].to_i
-    end
+    numbers = coords.map { |coord| coord[1].to_i }
 
-    (1..4).each_cons(coords.length) do |num|
-      num_range << num
-    end
+    (1..4).each_cons(coords.length) { |num| num_range << num }
 
-    num_range.any? do |num|
-      num == numbers
-    end
+    num_range.any? { |num| num == numbers }
   end
 
   def same_letters?(coords)
-    coords.all? do |coord|
-      coord[0] == coords[0][0]
-    end
+    coords.all? { |coord| coord[0] == coords[0][0] }
   end
 
   def same_numbers?(coords)
-    coords.all? do |coord|
-      coord[1] == coords[0][1]
-    end
+    coords.all? { |coord| coord[1] == coords[0][1] }
   end
 
   def length_valid?(ship, coords)
@@ -77,15 +61,11 @@ class Board
   end
 
   def place(ship, coords)
-    coords.map do |coord|
-      @cells[coord].place_ship(ship)
-    end
+    coords.map { |coord| @cells[coord].place_ship(ship) }
   end
 
   def ship_overlap?(coords)
-    coords.any? do |coord|
-      !@cells[coord].ship.nil?
-    end
+    coords.any? { |coord| !@cells[coord].ship.nil? }
   end
 
   def render(show_ship = false)
