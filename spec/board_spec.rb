@@ -87,7 +87,7 @@ RSpec.describe Board do
   end
 
   context 'Rendering the board' do
-    it 'renders' do
+    xit 'renders' do
       board = Board.new
       require 'pry'; binding.pry
       # cruiser = Ship.new('Cruiser', 3)
