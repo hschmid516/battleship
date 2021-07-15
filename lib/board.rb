@@ -109,8 +109,6 @@ class Board
         print "\n"
         j += 1
         break if j >= size
-
-        print "\n"
       end
       print "\n"
     end
