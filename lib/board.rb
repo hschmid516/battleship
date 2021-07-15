@@ -1,5 +1,19 @@
 class Board
-  def initialize; end
+  attr_reader :cells
+
+  def initialize
+    @cells = cell_grid = {}
+    size = 4
+    num = 1..size
+    ltr = 65.chr..(64 + size).chr
+    num.map do |num|
+      ltr.map do |ltr|
+        coord = ltr + num.to_s
+        cell_grid[coord] = Cell.new(coord)
+      end
+    end
+    cell_grid
+  end
 
   def cells
     cell_grid = {}
@@ -69,19 +83,33 @@ class Board
 
   def valid_placement?(ship, coords)
     length_valid?(ship, coords) && numbers_consecutive?(coords) && same_letters?(coords) ||
-    length_valid?(ship, coords) && letters_consecutive?(coords) && same_numbers?(coords)
+      length_valid?(ship, coords) && letters_consecutive?(coords) && same_numbers?(coords)
   end
 
   def render
     i = 1
     size = 4
-    print " "
+    print ' '
     loop do
       print " #{i}"
       i += 1
-      if i > size
-        break
-      end
+      break if i > size
     end
+    print "\n"
+    j = 0
+    loop do
+      print "#{(65 + j).chr} "
+      k = 1
+      loop do
+        print "#{@cells[(65 + j).chr + k.to_s].render} "
+        k += 1
+        break if k > size
+      end
+      print "\n"
+      j += 1
+      break if j >= size
+      print "\n"
+    end
+    print "\n"
   end
 end
