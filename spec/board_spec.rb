@@ -56,6 +56,5 @@ RSpec.describe Board do
     expect(board.valid_placement?(submarine, ["A1", "A2"])).to be true
     expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to be true
     end
-
   end
 end
