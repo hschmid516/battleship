@@ -2,19 +2,19 @@ class Board
   attr_reader :ship,
               :cells
 
-  def initialize
+  def initialize(size)
     @ship  = ship
+    @size  = size
     @cells = cell_grid = {}
-    size = 4
-    num = 1..size
-    ltr = 65.chr..(64 + size).chr
-    num.map do |num|
-      ltr.map do |ltr|
-        coord = ltr + num.to_s
-        cell_grid[coord] = Cell.new(coord)
-      end
-    end
-    cell_grid
+             num = 1..@size
+             ltr = 65.chr..(64 + @size).chr
+             num.map do |num|
+               ltr.map do |ltr|
+                 coord = ltr + num.to_s
+                 cell_grid[coord] = Cell.new(coord)
+               end
+             end
+             cell_grid
   end
 
   def valid_coordinate?(coord)
@@ -86,31 +86,31 @@ class Board
     coords.any? do |coord|
       !@cells[coord].ship.nil?
     end
+  end
 
-    def render
-      i = 1
-      size = 4
-      print ' '
-      loop do
-        print " #{i}"
-        i += 1
-        break if i > size
-      end
-      print "\n"
-      j = 0
-      loop do
-        print "#{(65 + j).chr} "
-        k = 1
-        loop do
-          print "#{@cells[(65 + j).chr + k.to_s].render} "
-          k += 1
-          break if k > size
-        end
-        print "\n"
-        j += 1
-        break if j >= size
-      end
-      print "\n"
+  def render(show_ship = false)
+    board = []
+    i = 1
+    board << ' '
+    loop do
+      board << " #{i}"
+      i += 1
+      break if i > @size
     end
+    board << " \n"
+    j = 0
+    loop do
+      board << "#{(65 + j).chr} "
+      k = 1
+      loop do
+        board << "#{@cells[(65 + j).chr + k.to_s].render(show_ship)} "
+        k += 1
+        break if k > @size
+      end
+      board << "\n"
+      j += 1
+      break if j >= @size
+    end
+    board.join
   end
 end
