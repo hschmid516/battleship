@@ -7,6 +7,7 @@ RSpec.describe Game do
       game = Game.new
 
       expect(game).to be_a(Game)
+      require 'pry'; binding.pry
     end
   end
 end
