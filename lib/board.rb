@@ -1,7 +1,9 @@
 class Board
-  attr_reader :cells
+  attr_reader :ship,
+              :cells
 
   def initialize
+    @ship  = ship
     @cells = cell_grid = {}
     size = 4
     num = 1..size
@@ -30,7 +32,7 @@ class Board
   end
 
   def valid_coordinate?(coord)
-    cells.keys.to_s.include?(coord) == true
+    @cells.keys.to_s.include?(coord) == true
   end
 
   def letters_consecutive?(coords)
@@ -82,9 +84,22 @@ class Board
   end
 
   def valid_placement?(ship, coords)
-    length_valid?(ship, coords) && numbers_consecutive?(coords) && same_letters?(coords) ||
-      length_valid?(ship, coords) && letters_consecutive?(coords) && same_numbers?(coords)
+    length_valid?(ship, coords) && numbers_consecutive?(coords) &&
+    same_letters?(coords) && !ship_overlap?(coords)||
+    length_valid?(ship, coords) && letters_consecutive?(coords) &&
+    same_numbers?(coords) && !ship_overlap?(coords)
   end
+
+  def place(ship, coords)
+    coords.map do |coord|
+      @cells[coord].place_ship(ship)
+    end
+  end
+
+  def ship_overlap?(coords)
+    coords.any? do |coord|
+      @cells[coord].ship != nil
+    end
 
   def render
     i = 1
