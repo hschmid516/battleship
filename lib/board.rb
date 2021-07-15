@@ -75,13 +75,21 @@ class Board
   end
 
   def valid_placement?(ship, coords)
-    length_valid?(ship, coords) && numbers_consecutive?(coords) && same_letters?(coords) ||
-    length_valid?(ship, coords) && letters_consecutive?(coords) && same_numbers?(coords)
+    length_valid?(ship, coords) && numbers_consecutive?(coords) &&
+    same_letters?(coords) && !ship_overlap?(coords)||
+    length_valid?(ship, coords) && letters_consecutive?(coords) &&
+    same_numbers?(coords) && !ship_overlap?(coords)
   end
 
   def place(ship, coords)
     coords.map do |coord|
       @cells[coord].place_ship(ship)
+    end
+  end
+
+  def ship_overlap?(coords)
+    coords.any? do |coord|
+      @cells[coord].ship != nil
     end
   end
 end
