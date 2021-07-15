@@ -6,13 +6,13 @@ require './lib/cell'
 RSpec.describe Board do
   context 'Creating the board' do
     it 'exists' do
-      board = Board.new
+      board = Board.new(4)
 
       expect(board).to be_a(Board)
     end
 
     it 'creates a board' do
-      board = Board.new
+      board = Board.new(4)
 
       expect(board.cells).to be_a(Hash)
       expect(board.cells.keys.length).to eq(16)
@@ -23,7 +23,7 @@ RSpec.describe Board do
 
   context 'Creating the board' do
     it 'can validate coordinates' do
-      board = Board.new
+      board = Board.new(4)
       board.cells
 
       expect(board.valid_coordinate?("A1")).to be true
@@ -34,7 +34,7 @@ RSpec.describe Board do
     end
 
     it 'confirms coordinates = ship length' do
-      board = Board.new
+      board = Board.new(4)
       cruiser = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
 
@@ -43,8 +43,8 @@ RSpec.describe Board do
       # expect(board.valid_placement?(submarine, ["A2", "A3"])).to be true
     end
 
-    xit 'confirms coordinates are consecutive'do
-      board = Board.new
+    it 'confirms coordinates are consecutive'do
+      board = Board.new(4)
       cruiser = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
 
@@ -57,11 +57,11 @@ RSpec.describe Board do
       expect(board.valid_placement?(submarine, ["A1", "A2"])).to be true
       expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to be true
     end
-    end
+  end
 
   context 'Placing ships' do
-    xit 'shows a ship is placed on multiple cells' do
-      board = Board.new
+    it 'shows a ship is placed on multiple cells' do
+      board = Board.new(4)
       cruiser = Ship.new("Cruiser", 3)
 
       board.place(cruiser, ["A1", "A2", "A3"])
@@ -76,7 +76,7 @@ RSpec.describe Board do
     end
 
     it 'verifies ships are not overlapping' do
-      board = Board.new
+      board = Board.new(4)
       cruiser = Ship.new("Cruiser", 3)
 
       board.place(cruiser, ["A1", "A2", "A3"])
@@ -87,21 +87,19 @@ RSpec.describe Board do
   end
 
   context 'Rendering the board' do
-    xit 'renders' do
-      board = Board.new
-      require 'pry'; binding.pry
-      # cruiser = Ship.new('Cruiser', 3)
-      # board.place(cruiser, %w[A1 A2 A3])
-
+    it 'renders' do
+      board = Board.new(4)
+      cruiser = Ship.new('Cruiser', 3)
+      board.place(cruiser, %w[A1 A2 A3])
       expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
     end
 
-    xit 'renders and shows a ship' do
-      board = Board.new
+    it 'renders and shows a ship' do
+      board = Board.new(4)
       cruiser = Ship.new('Cruiser', 3)
       board.place(cruiser, %w[A1 A2 A3])
 
-      expect(board.render(true))
+      expect(board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
     end
   end
 end
