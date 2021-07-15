@@ -1,3 +1,4 @@
+
 require './lib/board'
 require './lib/ship'
 require './lib/cell'
@@ -42,7 +43,7 @@ RSpec.describe Board do
       # expect(board.valid_placement?(submarine, ["A2", "A3"])).to be true
     end
 
-    it 'confirms coordinates are consecutive'do
+    xit 'confirms coordinates are consecutive'do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
@@ -56,10 +57,10 @@ RSpec.describe Board do
       expect(board.valid_placement?(submarine, ["A1", "A2"])).to be true
       expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to be true
     end
-  end
+    end
 
   context 'Placing ships' do
-    it 'shows a ship is placed on multiple cells' do
+    xit 'shows a ship is placed on multiple cells' do
       board = Board.new
       cruiser = Ship.new("Cruiser", 3)
 
@@ -82,6 +83,25 @@ RSpec.describe Board do
       submarine = Ship.new("Submarine", 2)
 
       expect(board.valid_placement?(submarine, ["A1", "B1"])).to be false
+    end
+  end
+
+  context 'Rendering the board' do
+    xit 'renders' do
+      board = Board.new
+      require 'pry'; binding.pry
+      # cruiser = Ship.new('Cruiser', 3)
+      # board.place(cruiser, %w[A1 A2 A3])
+
+      expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
+    end
+
+    xit 'renders and shows a ship' do
+      board = Board.new
+      cruiser = Ship.new('Cruiser', 3)
+      board.place(cruiser, %w[A1 A2 A3])
+
+      expect(board.render(true))
     end
   end
 end

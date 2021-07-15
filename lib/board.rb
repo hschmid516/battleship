@@ -4,22 +4,17 @@ class Board
 
   def initialize
     @ship  = ship
-    @cells = { 'A1' => Cell.new('A1'),
-               'A2' => Cell.new('A2'),
-               'A3' => Cell.new('A3'),
-               'A4' => Cell.new('A4'),
-               'B1' => Cell.new('B1'),
-               'B2' => Cell.new('B2'),
-               'B3' => Cell.new('B3'),
-               'B4' => Cell.new('B4'),
-               'C1' => Cell.new('C1'),
-               'C2' => Cell.new('C2'),
-               'C3' => Cell.new('C3'),
-               'C4' => Cell.new('C4'),
-               'D1' => Cell.new('D1'),
-               'D2' => Cell.new('D2'),
-               'D3' => Cell.new('D3'),
-               'D4' => Cell.new('D4') }
+    @cells = cell_grid = {}
+    size = 4
+    num = 1..size
+    ltr = 65.chr..(64 + size).chr
+    num.map do |num|
+      ltr.map do |ltr|
+        coord = ltr + num.to_s
+        cell_grid[coord] = Cell.new(coord)
+      end
+    end
+    cell_grid
   end
 
   def valid_coordinate?(coord)
@@ -76,9 +71,9 @@ class Board
 
   def valid_placement?(ship, coords)
     length_valid?(ship, coords) && numbers_consecutive?(coords) &&
-    same_letters?(coords) && !ship_overlap?(coords)||
-    length_valid?(ship, coords) && letters_consecutive?(coords) &&
-    same_numbers?(coords) && !ship_overlap?(coords)
+      same_letters?(coords) && !ship_overlap?(coords) ||
+      length_valid?(ship, coords) && letters_consecutive?(coords) &&
+        same_numbers?(coords) && !ship_overlap?(coords)
   end
 
   def place(ship, coords)
@@ -89,7 +84,35 @@ class Board
 
   def ship_overlap?(coords)
     coords.any? do |coord|
-      @cells[coord].ship != nil
+      !@cells[coord].ship.nil?
+    end
+
+    def render
+      i = 1
+      size = 4
+      print ' '
+      loop do
+        print " #{i}"
+        i += 1
+        break if i > size
+      end
+      print "\n"
+      j = 0
+      loop do
+        print "#{(65 + j).chr} "
+        k = 1
+        loop do
+          print "#{@cells[(65 + j).chr + k.to_s].render} "
+          k += 1
+          break if k > size
+        end
+        print "\n"
+        j += 1
+        break if j >= size
+
+        print "\n"
+      end
+      print "\n"
     end
   end
 end
