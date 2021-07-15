@@ -71,4 +71,17 @@ class Board
     length_valid?(ship, coords) && numbers_consecutive?(coords) && same_letters?(coords) ||
     length_valid?(ship, coords) && letters_consecutive?(coords) && same_numbers?(coords)
   end
+
+  def render
+    i = 1
+    size = 4
+    print " "
+    loop do
+      print " #{i}"
+      i += 1
+      if i > size
+        break
+      end
+    end
+  end
 end
