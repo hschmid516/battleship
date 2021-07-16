@@ -81,19 +81,20 @@ class Player
       shot_square = nil
       puts "Enter the coordinate for your shot:"
       shot_square = gets.strip.upcase
-      while com.com_board(shot_square).valid_coordinate? == false && shot_square.fired_upon? == false
+      # require 'pry'; binding.pry
+      while com.com_board.valid_coordinate?(com.com_board.cells[shot_square].coordinate) == false && shot_square.fired_upon? == false
         puts "Please enter a valid coordinate:"
         shot_square = gets.strip.upcase
-        com_board(shot_square).valid_coordinate?
+        com.com_board.valid_coordinate?(com.com_board.cells[shot_square].coordinate)
         shot_square.fired_upon?
       end
 
-      shot_square.fired_upon
-      shot_square.render
+      com.com_board.cells[shot_square].fired_upon
+      com.com_board.cells[shot_square].render
 
       # Computer fires here
 
-      if shot_square.render # Is X or H
+      if com.com_board.cells[shot_square].render == "X" || "H"
         puts "Your shot on #{shot_square} was a hit!"
       else
         puts "Your shot on #{shot_square} was a miss."
@@ -105,7 +106,7 @@ class Player
         puts "My shot on (computer shot_square) was a miss!"
       end
 
-      if # player shot sinks
+      if com.com_board.cells[shot_square].render == "X"
         puts "You sunk a ship!"
       end
 
@@ -113,9 +114,16 @@ class Player
         puts "I sunk a ship!"
       end
 
-      # Render the board
       player.win_condition
-      # restart turn
+      puts 'Press any key to continue'
+      STDIN.getch
+
+      system 'clear'
+      system 'cls'
+
+      # Render the board
+
+      turns(com)
     end
   end
 end

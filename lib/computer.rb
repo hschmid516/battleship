@@ -10,11 +10,11 @@ class Computer
   end
 
   def random_coords(ship, board)
-    coords = board.cells.keys.sample(ship.length)
+    coords = @com_board.cells.keys.sample(ship.length)
 
-    if board.valid_placement?(ship, coords) == false
-      coords = board.cells.keys.sample(ship.length) until
-        board.valid_placement?(ship, coords) == true
+    if @com_board.valid_placement?(ship, coords) == false
+      coords = @com_board.cells.keys.sample(ship.length) until
+        @com_board.valid_placement?(ship, coords) == true
       coords
     end
   end
@@ -24,9 +24,12 @@ class Computer
     cruiser = Ship.new(cruiser, 3)
     submarine = Ship.new(submarine, 2)
 
-    board.place(cruiser, random_coords(cruiser, board))
-    board.place(submarine, random_coords(submarine, board))
-    board
+    @com_board.place(cruiser, random_coords(cruiser, @com_board))
+    @com_board.place(submarine, random_coords(submarine, @com_board))
+  end
+
+  def turns
+    
   end
 
   def com_speaks

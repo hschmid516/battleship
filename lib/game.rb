@@ -7,7 +7,7 @@ class Game
   def initialize
   end
 
-  def display_boards(com = nil, player = nil)
+  def display_boards(com, player)
     system "clear"
     system "cls"
     puts '=============COMPUTER BOARD============='
@@ -82,6 +82,7 @@ class Game
       player.player_ships
       puts 'Ships placed. Press any key to start'
       STDIN.getch
+      com.com_placement
       puts display_boards(com, player)
       player.turns(com)
     end
