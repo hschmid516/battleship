@@ -91,3 +91,4 @@ class Game
     # end
 
 end
+play
