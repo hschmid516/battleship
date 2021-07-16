@@ -6,6 +6,17 @@ class Player
   def initialize
     @ship_square = []
 
+    # This is just a framework to be worked on later. Run it at the end of every turn
+    # def win_condition
+    #   if player.cruiser.sunk? == true && player.submarine.sunk? == true
+    #     abort "You lose!"
+    #   end
+    #
+    #   if computer.cruiser.sunk? == true && computer.submarine.sunk == true
+    #     abort "You win!"
+    #   end
+    # end
+
     def player_ships
       p_board = Board.new(4)
       puts 'Enter the squares for the Cruiser (3 spaces):'
@@ -61,6 +72,52 @@ class Player
       puts p_board.render(true)
       puts 'Ships placed. Press any key to start'
       STDIN.getch
+    end
+
+    def p_board
+      p_board.render(true)
+    end
+
+    def turns
+      # This is all untested at the moment
+      shot_square = nil
+      puts "Enter the coordinate for your shot:"
+      shot_square = gets.strip.upcase
+      while com_board(shot_square).valid_coordinate? == false && shot_square.fired_upon? == false
+        puts "Please enter a valid coordinate:"
+        shot_square = gets.strip.upcase
+        com_board(shot_square).valid_coordinate?
+        shot_square.fired_upon?
+      end
+
+      shot_square.fired_upon
+      shot_square.render
+
+      # Computer fires here
+
+      if shot_square.render # Is X or H
+        puts "Your shot on #{shot_square} was a hit!"
+      else
+        puts "Your shot on #{shot_square} was a miss."
+      end
+
+      if #computer shot nailed it
+        puts "My shot on (computer shot_square) was a hit!"
+      else
+        puts "My shot on (computer shot_square) was a miss!"
+      end
+
+      if # player shot sinks
+        puts "You sunk a ship!"
+      end
+
+      if # computer shot sinks
+        puts "I sunk a ship!"
+      end
+
+      # Render the board
+      player.win_condition
+      # restart turn
     end
   end
 end
