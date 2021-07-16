@@ -37,9 +37,11 @@ class Computer
 
   def turns(player)
     @shot_square = @com_board.cells.keys.sample(1).join
-    # require 'pry'; binding.pry
-    while @com_board.cells[@shot_square].fired_upon? == true
-      @shot_square = @com_board.cells.keys.sample(1)
+
+    if @com_board.cells[@shot_square].fired_upon? == true
+      @shot_square = @com_board.cells.keys.sample(1).join until
+        @com_board.cells[@shot_square].fired_upon? == false
+      @shot_square
     end
     player.p_board.cells[@shot_square].fire_upon
     player.p_board.cells[@shot_square].render

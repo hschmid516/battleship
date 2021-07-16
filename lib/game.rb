@@ -25,7 +25,7 @@ class Game
       system 'cls'
       if player.cruiser.sunk? == true && player.submarine.sunk?  == true
         abort "You lose!"
-      elsif com.cruiser.sunk? == true && com.submarine.sunk == true
+      elsif com.cruiser.sunk? == true && com.submarine.sunk? == true
         abort "You win!"
       end
   end
