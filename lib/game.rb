@@ -1,3 +1,4 @@
+
 require './lib/ship'
 require './lib/board'
 require './lib/computer'
@@ -31,17 +32,19 @@ class Game
       end
     end
 
+    system "clear"
+    system "cls"
     print "                        "
-    print "Welcome to...\n"
-    print"
+    print_slow("Welcome to...\n")
+    print_fast("
     ██████╗  █████╗ ████████╗████████╗██╗     ███████╗███████╗██╗  ██╗██╗██████╗
     ██╔══██╗██╔══██╗╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔════╝██║  ██║██║██╔══██╗
     ██████╔╝███████║   ██║      ██║   ██║     █████╗  ███████╗███████║██║██████╔╝
     ██╔══██╗██╔══██║   ██║      ██║   ██║     ██╔══╝  ╚════██║██╔══██║██║██╔═══╝
     ██████╔╝██║  ██║   ██║      ██║   ███████╗███████╗███████║██║  ██║██║██║
     ╚═════╝ ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝
-    "
-    puts "\n\nEnter p to play. Enter q to quit."
+    ")
+    puts "\n\n                        Enter p to play. Enter q to quit."
 
     play_quit = gets.strip.downcase
 
@@ -55,31 +58,38 @@ class Game
     end
 
     if play_quit == 'p'
-    puts "\nSelect game mode" +
-         "\n\n [4]x4 \n [T]raditional \n [C]ustom"
+
+    system "clear"
+    system "cls"
+    puts "Select game mode" +
+         "\n\n[4]x4\n[T]raditional\n[C]ustom\n[Q]uit"
     play_mode = gets.strip.downcase
     end
 
-    while play_mode != '4' && play_mode != 't' && play_mode != 'c'
-      puts "\n Please enter 4 t or c"
+    while play_mode != '4' && play_mode != 't' && play_mode != 'c' && play_mode != 'q'
+      puts "\n Please enter 4, t, c, or q"
+
       play_mode = gets.strip.downcase
     end
 
     if play_mode == '4'
-      com = Computer.new(4)
-      puts display_boards(com)
-      # We start the turing game from here
 
+      com = Computer.new(4)
+      com_speaks
+      puts display_boards(com)
+      @player.player_ships
     end
 
     if play_mode == 't'
       com = Computer.new(10)
       puts display_boards(com)
-      # We start the traditional game from here
     end
 
     if play_mode == 'c'
       # We start the custom game from here
+      
+    if play_mode == 'q'
+      abort "You may have lost the battle, but you also lost the war!"
     end
   end
 end
