@@ -9,8 +9,18 @@ RSpec.describe Game do
       game = Game.new
 
       expect(game).to be_a(Game)
-      # require 'pry'; binding.pry
-      game.com_placement
+    end
+
+    xit 'can place ships randomly for com' do
+      game = Game.new
+
+      expect()
+    end
+
+    it 'returns the board when the com places ships' do
+      game = Game.new
+
+      expect(game.com_placement).to be_a(Board)
     end
   end
 end
