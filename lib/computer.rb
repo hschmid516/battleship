@@ -28,8 +28,14 @@ class Computer
     @com_board.place(submarine, random_coords(submarine, @com_board))
   end
 
-  def turns
-    
+  def turns(player)
+    shot_square = @com_board.cells.keys.sample(1)
+    while @com_board.cells[shot_square].fired_upon? == true
+      shot_square = @com_board.cells.keys.sample(1)
+    end
+    player.p_board.cells[shot_square].fire_upon
+    player.p_board.cells[shot_square].render
+
   end
 
   def com_speaks
