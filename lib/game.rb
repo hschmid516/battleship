@@ -23,9 +23,16 @@ class Game
     return false unless player.cruiser.sunk? == true && player.submarine.sunk?  == true || com.cruiser.sunk? == true && com.submarine.sunk? == true
 
     if player.cruiser.sunk? == true && player.submarine.sunk?  == true
-      abort "\nYou lose!"
+      puts "\nYou lose!\n"
+      puts 'Press any key to return to main menu.'
+      STDIN.getch
+      play
+
     elsif com.cruiser.sunk? == true && com.submarine.sunk? == true
-      abort "\nYou win!"
+      puts "\nYou win!\n"
+      puts 'Press any key to return to main menu.'
+      STDIN.getch
+      play
     end
   end
 
@@ -54,8 +61,6 @@ class Game
 
     puts 'Press any key to continue'
     STDIN.getch
-
-    # Render the board
   end
 
   def play
@@ -95,7 +100,7 @@ class Game
     end
 
     if play_quit == 'q'
-      abort "Sorry to see you go!"
+      abort "You may have lost the battle, but you also lost the war!"
     end
 
     if play_quit == 'p'
