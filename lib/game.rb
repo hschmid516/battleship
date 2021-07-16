@@ -7,14 +7,14 @@ class Game
   def initialize
   end
 
-  def display_boards(com)
+  def display_boards(com = nil, player = nil)
     system "clear"
     system "cls"
     puts '=============COMPUTER BOARD============='
     # require 'pry'; binding.pry
     puts com.com_board.render
     puts '==============PLAYER BOARD=============='
-    # puts player.player_board.render
+    puts player.p_board.render(true)
   end
 
   def play
@@ -35,8 +35,8 @@ class Game
     system "clear"
     system "cls"
     print "                        "
-    print_slow("Welcome to...\n")
-    print_fast("
+    print("Welcome to...\n")
+    print("
     ██████╗  █████╗ ████████╗████████╗██╗     ███████╗███████╗██╗  ██╗██╗██████╗
     ██╔══██╗██╔══██╗╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔════╝██║  ██║██║██╔══██╗
     ██████╔╝███████║   ██║      ██║   ██║     █████╗  ███████╗███████║██║██████╔╝
@@ -75,9 +75,15 @@ class Game
     if play_mode == '4'
 
       com = Computer.new(4)
-      com_speaks
-      puts display_boards(com)
-      @player.player_ships
+      com.com_speaks
+      # puts display_boards(com)
+
+      player = Player.new
+      player.player_ships
+      puts 'Ships placed. Press any key to start'
+      STDIN.getch
+      puts display_boards(com, player)
+      player.turns(com)
     end
 
     if play_mode == 't'
@@ -87,7 +93,8 @@ class Game
 
     if play_mode == 'c'
       # We start the custom game from here
-      
+    end
+
     if play_mode == 'q'
       abort "You may have lost the battle, but you also lost the war!"
     end

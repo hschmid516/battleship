@@ -2,10 +2,11 @@ require './lib/board'
 require './lib/cell'
 
 class Computer
-  attr_reader :board_size
+  attr_reader :board_size, :com_board
 
   def initialize(board_size)
     @board_size = board_size
+    @com_board = com_board
   end
 
   def random_coords(ship, board)
@@ -18,11 +19,10 @@ class Computer
     end
   end
 
-  def com_board
+  def com_placement
+    @com_board = Board.new(board_size)
     cruiser = Ship.new(cruiser, 3)
     submarine = Ship.new(submarine, 2)
-    board = Board.new(board_size)
-    # require 'pry'; binding.pry
 
     board.place(cruiser, random_coords(cruiser, board))
     board.place(submarine, random_coords(submarine, board))
@@ -30,6 +30,8 @@ class Computer
   end
 
   def com_speaks
+    system "clear"
+    system "cls"
     puts 'I have laid out my ships on the grid.'
     puts 'You now need to lay out your two ships.'
     puts 'The Cruiser is three units long and the Submarine is two units long.'
