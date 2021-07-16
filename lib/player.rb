@@ -79,6 +79,7 @@ class Player
         @shot_square = gets.strip.upcase
         com.com_board.valid_coordinate?(@shot_square)
       end
+
       while com.com_board.cells[@shot_square].fired_upon? == true
         puts "You have already fired here. Try again:"
         @shot_square = gets.strip.upcase
