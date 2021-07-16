@@ -74,10 +74,10 @@ class Player
     def turns(com)
       puts "Enter the coordinate for your shot:"
       @shot_square = gets.strip.upcase
-      while com.com_board.valid_coordinate?(com.com_board.cells[@shot_square].coordinate) == false
+      while com.com_board.valid_coordinate?(@shot_square) == false
         puts "Please enter a valid coordinate:"
         @shot_square = gets.strip.upcase
-        com.com_board.valid_coordinate?(com.com_board.cells[@shot_square].coordinate)
+        com.com_board.valid_coordinate?(@shot_square)
       end
       while com.com_board.cells[@shot_square].fired_upon? == true
         puts "You have already fired here. Try again:"

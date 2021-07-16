@@ -31,23 +31,25 @@ class Game
   end
 
   def hit_check(com, player)
-    if com.com_board.cells[player.shot_square].render == "X" || "H"
+    if com.com_board.cells[player.shot_square].render == "X" ||
+        com.com_board.cells[player.shot_square].render == "H"
       puts "Your shot on #{player.shot_square} was a hit!"
     else
       puts "Your shot on #{player.shot_square} was a miss."
     end
 
-    if #computer shot .render == "X" || "H"
-      puts "My shot on (computer shot_square) was a hit!"
+    if player.p_board.cells[com.shot_square].render == "X" ||
+        player.p_board.cells[com.shot_square].render == "H"
+      puts "My shot on #{com.shot_square} was a hit!"
     else
-      puts "My shot on (computer shot_square) was a miss!"
+      puts "My shot on #{com.shot_square} was a miss!"
     end
 
     if com.com_board.cells[player.shot_square].render == "X"
       puts "You sunk a ship!"
     end
 
-    if # computer shot .render == "X"
+    if player.p_board.cells[com.shot_square].render == "X"
       puts "I sunk a ship!"
     end
 
@@ -127,10 +129,12 @@ class Game
       player.turns(com)
       com.turns(player)
       hit_check(com, player)
+      puts display_boards(com, player)
       while win_condition(player, com) == false
         player.turns(com)
         com.turns(player)
         hit_check(com, player)
+        puts display_boards(com, player)
       end
     end
 
