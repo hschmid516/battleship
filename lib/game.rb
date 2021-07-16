@@ -20,14 +20,13 @@ class Game
 
   def win_condition(player, com)
     # require 'pry'; binding.pry
-    return false unless player.cruiser.sunk? == true && player.submarine.sunk?  == true || com.cruiser.sunk? == true && com.submarine.sunk == true
-      system 'clear'
-      system 'cls'
-      if player.cruiser.sunk? == true && player.submarine.sunk?  == true
-        abort "You lose!"
-      elsif com.cruiser.sunk? == true && com.submarine.sunk? == true
-        abort "You win!"
-      end
+    return false unless player.cruiser.sunk? == true && player.submarine.sunk?  == true || com.cruiser.sunk? == true && com.submarine.sunk? == true
+
+    if player.cruiser.sunk? == true && player.submarine.sunk?  == true
+      abort "\nYou lose!"
+    elsif com.cruiser.sunk? == true && com.submarine.sunk? == true
+      abort "\nYou win!"
+    end
   end
 
   def hit_check(com, player)

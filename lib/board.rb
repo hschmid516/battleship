@@ -11,14 +11,14 @@ class Board
              num.map do |num|
                ltr.map do |ltr|
                  coord = ltr + num.to_s
-                 cell_grid[coord] = Cell.new(coord)
+                 cell_grid[coord.to_sym] = Cell.new(coord)
                end
              end
              cell_grid
   end
 
   def valid_coordinate?(coord)
-    @cells.keys.to_s.include?(coord) == true
+    @cells.keys.any? { |key| key == coord } == true
   end
 
   def letters_consecutive?(coords)
@@ -61,11 +61,11 @@ class Board
   end
 
   def place(ship, coords)
-    coords.map { |coord| @cells[coord].place_ship(ship) }
+    coords.map { |coord| @cells[coord.to_sym].place_ship(ship) }
   end
 
   def ship_overlap?(coords)
-    coords.any? { |coord| !@cells[coord].ship.nil? }
+    coords.any? { |coord| !@cells[coord.to_sym].ship.nil? }
   end
 
   def render(show_ship = false)
@@ -83,7 +83,7 @@ class Board
       board << "#{(65 + j).chr} "
       k = 1
       loop do
-        board << "#{@cells[(65 + j).chr + k.to_s].render(show_ship)} "
+        board << "#{@cells[((65 + j).chr + k.to_s).to_sym].render(show_ship)} "
         k += 1
         break if k > @size
       end

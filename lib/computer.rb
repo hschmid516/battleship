@@ -38,13 +38,13 @@ class Computer
   def turns(player)
     @shot_square = @com_board.cells.keys.sample(1).join
 
-    if @com_board.cells[@shot_square].fired_upon? == true
+    if @com_board.cells[@shot_square.to_sym].fired_upon? == true
       @shot_square = @com_board.cells.keys.sample(1).join until
-        @com_board.cells[@shot_square].fired_upon? == false
-      @shot_square
+        @com_board.cells[@shot_square.to_sym].fired_upon? == false
+
     end
-    player.p_board.cells[@shot_square].fire_upon
-    player.p_board.cells[@shot_square].render
+    player.p_board.cells[@shot_square.to_sym].fire_upon
+    player.p_board.cells[@shot_square.to_sym].render
   end
 
   def com_speaks
