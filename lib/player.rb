@@ -1,24 +1,21 @@
 require 'io/console'
 
 class Player
+
   def player_placement
+    p_cruiser = Ship.new(cruiser, 3)
+    p_submarine = Ship.new(submarine, 2)
+    player_board = Board.new(4)
   end
 
   def player_ships
     puts "Enter the squares for the Cruiser (3 spaces)"
-    @ship_square = gets.strip.upcase
-    puts "Square 1: #{ship_square}. Enter Square 2"
-    @ship_square = gets.strip.upcase
-    puts "Square 2: #{ship_square}. Enter Square 3"
-    @ship_square = gets.strip.upcase
-    puts "Square 3: #{ship_square}."
+    ship_square = gets.upcase
     # Verify and place
     # If not valid, redo
     # show board, render true
     puts "Enter the squares for the Submarine (2 spaces)"
-    ship_square = gets.strip.upcase
-    puts "Square 1: #{ship_square}. Enter Square 2"
-    ship_square = gets.strip.upcase
+    ship_square = gets.upcase
     # Verify and place
     # If not valid, redo
     # show board, render true
@@ -29,6 +26,6 @@ class Player
   end
 
 
-  def player_turn
+  def turn
   end
 end
