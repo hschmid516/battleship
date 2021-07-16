@@ -1,6 +1,3 @@
-require './lib/ship'
-require './lib/board'
-
 class Game
   def initialize
   end
@@ -19,7 +16,7 @@ class Game
     cruiser = Ship.new(cruiser, 3)
     submarine = Ship.new(submarine, 2)
     com_board = Board.new(4)
-    require 'pry'; binding.pry
+    # require 'pry'; binding.pry
 
     com_board.place(cruiser, random_coords(cruiser, com_board))
     com_board.place(submarine, random_coords(submarine, com_board))
@@ -27,9 +24,12 @@ class Game
   end
 
   def com_speaks
+    system "clear"
+    system "cls"
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
     puts "The Cruiser is three units long and the Submarine is two units long."
+    puts com_placement
   end
 
   def display_boards
@@ -57,15 +57,15 @@ class Game
     end
 
     print "                        "
-    print "Welcome to...\n"
-    print"
+    print_slow("Welcome to...\n")
+    print_fast("
     ██████╗  █████╗ ████████╗████████╗██╗     ███████╗███████╗██╗  ██╗██╗██████╗
     ██╔══██╗██╔══██╗╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔════╝██║  ██║██║██╔══██╗
     ██████╔╝███████║   ██║      ██║   ██║     █████╗  ███████╗███████║██║██████╔╝
     ██╔══██╗██╔══██║   ██║      ██║   ██║     ██╔══╝  ╚════██║██╔══██║██║██╔═══╝
     ██████╔╝██║  ██║   ██║      ██║   ███████╗███████╗███████║██║  ██║██║██║
     ╚═════╝ ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝
-    "
+    ")
     puts "\n\nEnter p to play. Enter q to quit."
 
     play_quit = gets.strip.downcase
@@ -91,6 +91,7 @@ class Game
     end
 
     if play_mode == '4'
+      com_placement
       com_speaks
       player = Player.new
       player.player_ships
