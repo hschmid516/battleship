@@ -1,5 +1,8 @@
 class Game
+  attr_reader :player
+
   def initialize
+    @player = Player.new
   end
 
   def random_coords(ship, board)
@@ -84,20 +87,19 @@ class Game
     system "clear"
     system "cls"
     puts "Select game mode" +
-         "\n\n [4]x4 \n [T]raditional \n [C]ustom"
+         "\n\n[4]x4\n[T]raditional\n[C]ustom\n[Q]uit"
     play_mode = gets.strip.downcase
     end
 
-    while play_mode != '4' && play_mode != 't' && play_mode != 'c'
-      puts "\n Please enter 4 t or c"
+    while play_mode != '4' && play_mode != 't' && play_mode != 'c' && play_mode != 'q'
+      puts "\n Please enter 4, t, c, or q"
       play_mode = gets.strip.downcase
     end
 
     if play_mode == '4'
       com_placement
       com_speaks
-      player = Player.new
-      player.player_ships
+      @player.player_ships
 
       display_boards
     end
@@ -108,6 +110,10 @@ class Game
 
     if play_mode == 'c'
       # We start the custom game from here
+    end
+
+    if play_mode == 'q'
+      abort "Sorry to see you go!"
     end
   end
 end
