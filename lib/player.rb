@@ -3,13 +3,16 @@ require 'io/console'
 class Player
   attr_reader :ship_square,
               :p_board,
-              :cruiser
+              :cruiser,
+              :submarine,
+              :shot_square
 
   def initialize
     @ship_square = []
-    @p_board = Board.new(4)
-    @cruiser = cruiser
-    @submarine = submarine
+    @p_board     = Board.new(4)
+    @cruiser     = cruiser
+    @submarine   = submarine
+    @shot_square = nil
 
     def player_ships
       puts 'Enter the squares for the Cruiser (3 spaces):'
@@ -69,18 +72,17 @@ class Player
 
 
     def turns(com)
-      shot_square = nil
       puts "Enter the coordinate for your shot:"
-      shot_square = gets.strip.upcase
-      while com.com_board.valid_coordinate?(com.com_board.cells[shot_square].coordinate) == false && shot_square.fired_upon? == false
+      @shot_square = gets.strip.upcase
+      while com.com_board.valid_coordinate?(com.com_board.cells[@shot_square].coordinate) == false && @shot_square.fired_upon? == false
         puts "Please enter a valid coordinate:"
-        shot_square = gets.strip.upcase
-        com.com_board.valid_coordinate?(com.com_board.cells[shot_square].coordinate)
-        shot_square.fired_upon?
+        @shot_square = gets.strip.upcase
+        com.com_board.valid_coordinate?(com.com_board.cells[@shot_square].coordinate)
+        @shot_square.fired_upon?
       end
 
-      com.com_board.cells[shot_square].fire_upon
-      com.com_board.cells[shot_square].render
+      com.com_board.cells[@shot_square].fire_upon
+      com.com_board.cells[@shot_square].render
     end
   end
 end

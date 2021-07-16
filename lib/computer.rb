@@ -2,11 +2,16 @@ require './lib/board'
 require './lib/cell'
 
 class Computer
-  attr_reader :board_size, :com_board
+  attr_reader :board_size,
+              :com_board,
+              :cruiser,
+              :submarine
 
   def initialize(board_size)
     @board_size = board_size
     @com_board = com_board
+    @cruiser = cruiser
+    @submarine = submarine
   end
 
   def random_coords(ship, board)
@@ -21,15 +26,16 @@ class Computer
 
   def com_placement
     @com_board = Board.new(board_size)
-    cruiser = Ship.new(cruiser, 3)
-    submarine = Ship.new(submarine, 2)
-
-    @com_board.place(cruiser, random_coords(cruiser, @com_board))
-    @com_board.place(submarine, random_coords(submarine, @com_board))
+    @cruiser = Ship.new('Cruiser', 3)
+    @submarine = Ship.new('Submarine', 2)
+    # update name to string
+    @com_board.place(@cruiser, random_coords(@cruiser, @com_board))
+    @com_board.place(@submarine, random_coords(@submarine, @com_board))
   end
 
   def turns(player)
-    shot_square = @com_board.cells.keys.sample(1)
+    shot_square = @com_board.cells.keys.sample(1).join
+    # require 'pry'; binding.pry
     while @com_board.cells[shot_square].fired_upon? == true
       shot_square = @com_board.cells.keys.sample(1)
     end

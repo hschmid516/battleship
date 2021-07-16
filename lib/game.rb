@@ -19,24 +19,22 @@ class Game
   end
 
   def win_condition(player, com)
-    if player.cruiser.sunk? == true && player.submarine.sunk? == true
+    # require 'pry'; binding.pry
+    return false unless player.cruiser.sunk? == true && player.submarine.sunk?  == true || com.cruiser.sunk? == true && com.submarine.sunk == true
       system 'clear'
       system 'cls'
-      abort "You lose!"
-    end
-
-    if com.cruiser.sunk? == true && com.submarine.sunk == true
-      system 'clear'
-      system 'cls'
-      abort "You win!"
-    end
+      if player.cruiser.sunk? == true && player.submarine.sunk?  == true
+        abort "You lose!"
+      elsif com.cruiser.sunk? == true && com.submarine.sunk == true
+        abort "You win!"
+      end
   end
 
-  def hit_check
-    if @com_board.cells[shot_square].render == "X" || "H"
-      puts "Your shot on #{shot_square} was a hit!"
+  def hit_check(com, player)
+    if com.com_board.cells[player.shot_square].render == "X" || "H"
+      puts "Your shot on #{player.shot_square} was a hit!"
     else
-      puts "Your shot on #{shot_square} was a miss."
+      puts "Your shot on #{player.shot_square} was a miss."
     end
 
     if #computer shot .render == "X" || "H"
@@ -45,23 +43,18 @@ class Game
       puts "My shot on (computer shot_square) was a miss!"
     end
 
-    if @com_board.cells[shot_square].render == "X"
+    if com.com_board.cells[player.shot_square].render == "X"
       puts "You sunk a ship!"
     end
 
     if # computer shot .render == "X"
       puts "I sunk a ship!"
     end
-  end
 
-  def win_check
-    player.win_condition
     puts 'Press any key to continue'
     STDIN.getch
 
     # Render the board
-
-    turns(com)
   end
 
   def play
@@ -122,19 +115,23 @@ class Game
     if play_mode == '4'
 
       com = Computer.new(4)
-      @com.com_speaks
+      com.com_placement
+      com.com_speaks
       # puts display_boards(com)
 
-      @player = Player.new
+      player = Player.new
       player.player_ships
-      puts 'Ships placed. Press any key to start'
-      STDIN.getch
-      com.com_placement
+
       puts display_boards(com, player)
 
-      while player.win
       player.turns(com)
       com.turns(player)
+      hit_check(com, player)
+      while win_condition(player, com) == false
+        player.turns(com)
+        com.turns(player)
+        hit_check(com, player)
+      end
     end
 
     if play_mode == 't'
