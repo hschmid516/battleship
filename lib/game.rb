@@ -1,46 +1,20 @@
+
+require './lib/ship'
+require './lib/board'
+require './lib/computer'
+
 class Game
-  attr_reader :player
-
   def initialize
-    @player = Player.new
   end
 
-  def random_coords(ship, board)
-    coords = board.cells.keys.sample(ship.length)
-
-    if board.valid_placement?(ship, coords) == false
-      coords = board.cells.keys.sample(ship.length) until
-        board.valid_placement?(ship, coords) == true
-      coords
-    end
-  end
-
-  def com_placement
-    cruiser = Ship.new(cruiser, 3)
-    submarine = Ship.new(submarine, 2)
-    com_board = Board.new(4)
-
-    com_board.place(cruiser, random_coords(cruiser, com_board))
-    com_board.place(submarine, random_coords(submarine, com_board))
-    com_board.render
-  end
-
-  def com_speaks
-    system "clear"
-    system "cls"
-    puts "I have laid out my ships on the grid."
-    puts "You now need to lay out your two ships."
-    puts "The Cruiser is three units long and the Submarine is two units long."
-    puts com_placement
-  end
-
-  def display_boards
+  def display_boards(com)
     system "clear"
     system "cls"
     puts '=============COMPUTER BOARD============='
-    puts com_placement
+    # require 'pry'; binding.pry
+    puts com.com_board.render
     puts '==============PLAYER BOARD=============='
-    puts com_placement
+    # puts player.player_board.render
   end
 
   def play
@@ -84,6 +58,7 @@ class Game
     end
 
     if play_quit == 'p'
+
     system "clear"
     system "cls"
     puts "Select game mode" +
@@ -93,27 +68,28 @@ class Game
 
     while play_mode != '4' && play_mode != 't' && play_mode != 'c' && play_mode != 'q'
       puts "\n Please enter 4, t, c, or q"
+
       play_mode = gets.strip.downcase
     end
 
     if play_mode == '4'
-      com_placement
-      com_speaks
-      @player.player_ships
 
-      display_boards
+      com = Computer.new(4)
+      com_speaks
+      puts display_boards(com)
+      @player.player_ships
     end
 
     if play_mode == 't'
-      # We start the traditional game from here
+      com = Computer.new(10)
+      puts display_boards(com)
     end
 
     if play_mode == 'c'
       # We start the custom game from here
-    end
-
+      
     if play_mode == 'q'
-      abort "Sorry to see you go!"
+      abort "You may have lost the battle, but you also lost the war!"
     end
   end
 end
