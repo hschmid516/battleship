@@ -19,7 +19,7 @@ RSpec.describe Game do
 
     it 'returns the board when the com places ships' do
       game = Game.new
-
+      require 'pry'; binding.pry
       expect(game.com_placement).to be_a(Board)
     end
   end
