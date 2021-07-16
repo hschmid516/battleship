@@ -16,7 +16,6 @@ class Game
     cruiser = Ship.new(cruiser, 3)
     submarine = Ship.new(submarine, 2)
     com_board = Board.new(4)
-    # require 'pry'; binding.pry
 
     com_board.place(cruiser, random_coords(cruiser, com_board))
     com_board.place(submarine, random_coords(submarine, com_board))
@@ -56,6 +55,8 @@ class Game
       end
     end
 
+    system "clear"
+    system "cls"
     print "                        "
     print_slow("Welcome to...\n")
     print_fast("
@@ -66,7 +67,7 @@ class Game
     ██████╔╝██║  ██║   ██║      ██║   ███████╗███████╗███████║██║  ██║██║██║
     ╚═════╝ ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝
     ")
-    puts "\n\nEnter p to play. Enter q to quit."
+    puts "\n\n                        Enter p to play. Enter q to quit."
 
     play_quit = gets.strip.downcase
 
@@ -80,7 +81,9 @@ class Game
     end
 
     if play_quit == 'p'
-    puts "\nSelect game mode" +
+    system "clear"
+    system "cls"
+    puts "Select game mode" +
          "\n\n [4]x4 \n [T]raditional \n [C]ustom"
     play_mode = gets.strip.downcase
     end
