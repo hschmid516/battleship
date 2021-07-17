@@ -6,7 +6,10 @@ class Computer
               :com_board,
               :cruiser,
               :submarine,
-              :shot_square
+              :shot_square,
+              :destroyer,
+              :battleship,
+              :carrier
 
   def initialize(board_size)
     @board_size  = board_size
@@ -34,6 +37,20 @@ class Computer
     @com_board.place(@submarine, random_coords(@submarine, @com_board))
   end
 
+  def com_trad_placement
+    @com_board = Board.new(board_size)
+    @destroyer = Ship.new('Destroyer', 2)
+    @cruiser = Ship.new('Cruiser', 3)
+    @submarine = Ship.new('Submarine', 3)
+    @battleship = Ship.new('Battleship', 4)
+    @carrier = Ship.new('Carrier', 5)
+    @com_board.place(@destroyer, random_coords(@destroyer, @com_board))
+    @com_board.place(@cruiser, random_coords(@cruiser, @com_board))
+    @com_board.place(@submarine, random_coords(@submarine, @com_board))
+    @com_board.place(@battleship, random_coords(@battleship, @com_board))
+    @com_board.place(@cruiser, random_coords(@battleship, @com_board))
+  end
+
   def turns(player)
     @shot_square = player.p_board.cells.keys.sample(1).join
     if player.p_board.cells[@shot_square].fired_upon? == true
@@ -50,7 +67,7 @@ class Computer
         player.p_board.cells[@shot_square].render == "H"
       puts "My shot on #{shot_square} was a hit!"
     else
-      puts "My shot on #{shot_square} was a miss!"
+      puts "My shot on #{shot_square} was a miss."
     end
 
     if player.p_board.cells[@shot_square].render == "X"

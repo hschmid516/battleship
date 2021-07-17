@@ -5,13 +5,18 @@ require './lib/board'
 require './lib/computer'
 
 class Game
+  attr_reader :game_mode
+
+  def initialize
+    @game_mode = game_mode
+  end
 
   def display_board(player)
     puts "\n==============PLAYER BOARD=============="
     puts player.p_board.render(true)
-    puts "\nYou now need to lay out your two ships."
-    sleep 2
-    puts 'The Cruiser is three units long and the Submarine is two units long.'
+    puts "\nYou now need to lay out your ships."
+    # sleep 2
+    # puts 'The Cruiser is three units long and the Submarine is two units long.'
   end
 
   def display_boards(com, player)
@@ -124,10 +129,18 @@ class Game
   def play_turns(board_size)
     com = Computer.new(board_size)
     player = Player.new(board_size)
-    com.com_placement
+    if @game_mode == '4'
+      com.com_placement
+    elsif @game_mode == 't'
+      com.com_trad_placement
+    end
     com.com_speaks
     puts display_board(player)
-    player.player_ships
+    if @game_mode == '4'
+      player.player_ships
+    elsif @game_mode == 't'
+      player.trad_ships
+    end
     puts display_boards(com, player)
     player.turns(com)
     com.turns(player)
@@ -177,30 +190,30 @@ class Game
 
     puts "Select game mode" +
          "\n\n[4]x4\n[T]raditional\n[C]ustom\n[Q]uit"
-    game_mode = gets.strip.downcase
+    @game_mode = gets.strip.downcase
 
 
-    while game_mode != '4' && game_mode != 't' && game_mode !=
-       'c' && game_mode != 'q'
+    while @game_mode != '4' && @game_mode != 't' && @game_mode !=
+       'c' && @game_mode != 'q'
       puts "\n Please enter 4, t, c, or q"
 
-      game_mode = gets.strip.downcase
+      @game_mode = gets.strip.downcase
     end
 
-    if game_mode == '4'
+    if @game_mode == '4'
       play_turns([4,4])
     end
 
-    if game_mode == 't'
+    if @game_mode == 't'
       play_turns([10,10])
     end
 
-    if game_mode == 'c'
+    if @game_mode == 'c'
       create_ships
       play_turns(get_board_size)
     end
 
-    if game_mode == 'q'
+    if @game_mode == 'q'
       abort "You may have lost the battle, but you also lost the war!"
     end
   end
