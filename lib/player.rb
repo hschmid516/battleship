@@ -1,14 +1,12 @@
 require 'io/console'
 
 class Player
-  attr_reader :ship_square,
-              :p_board,
+  attr_reader :p_board,
               :cruiser,
               :submarine,
               :shot_square
 
   def initialize(board_size)
-    @ship_square = []
     @p_board     = Board.new(board_size)
     @cruiser     = cruiser
     @submarine   = submarine
@@ -16,53 +14,56 @@ class Player
   end
 
   def player_ships
+    ship_square = []
     puts 'Enter the squares for the Cruiser (3 spaces):'
-    @ship_square << gets.strip.upcase
-    print "Square 1: #{ship_square}. Enter Square 2:"
-    @ship_square << gets.strip.upcase
-    print "Square 2: #{ship_square}. Enter Square 3:"
-    @ship_square << gets.strip.upcase
-    puts "Square 3: #{ship_square}."
+    print "Square 1: "
+    ship_square << gets.strip.upcase
+    print "Square 2: "
+    ship_square << gets.strip.upcase
+    print "Square 3: "
+    ship_square << gets.strip.upcase
     @cruiser = Ship.new('Cruiser', 3)
-    @p_board.valid_placement?(cruiser, @ship_square)
+    @p_board.valid_placement?(cruiser, ship_square)
 
-    while @p_board.valid_placement?(cruiser, @ship_square) == false
-      @ship_square = []
-      puts 'Those are invalid coordinates. Please try again:'
+    while @p_board.valid_placement?(cruiser, ship_square) == false
+      puts "#{ship_square} are invalid coordinates. Please try again:"
+      ship_square = []
       puts 'Enter the squares for the Cruiser (3 spaces):'
-      @ship_square << gets.strip.upcase
-      print "Square 1: #{ship_square}. Enter Square 2:"
-      @ship_square << gets.strip.upcase
-      print "Square 2: #{ship_square}. Enter Square 3:"
-      @ship_square << gets.strip.upcase
-      puts "Square 3: #{ship_square}."
-      @p_board.valid_placement?(cruiser, @ship_square)
+      print "Square 1: "
+      ship_square << gets.strip.upcase
+      print "Square 2: "
+      ship_square << gets.strip.upcase
+      print "Square 3: "
+      ship_square << gets.strip.upcase
+      @p_board.valid_placement?(cruiser, ship_square)
     end
 
-    @p_board.place(cruiser, @ship_square)
+    @p_board.place(cruiser, ship_square)
     system "clear"
     system "cls"
     puts @p_board.render(true)
 
-    @ship_square = []
+    ship_square = []
     puts 'Enter the squares for the Submarine (2 spaces):'
-    @ship_square << gets.strip.upcase
-    puts "Square 1: #{ship_square}. Enter Square 2:"
-    @ship_square << gets.strip.upcase
+    print "Square 1: "
+    ship_square << gets.strip.upcase
+    print "Square 1: "
+    ship_square << gets.strip.upcase
     @submarine = Ship.new('Submarine', 2)
-    @p_board.valid_placement?(submarine, @ship_square)
+    @p_board.valid_placement?(submarine, ship_square)
 
-    while @p_board.valid_placement?(submarine, @ship_square) == false
-      @ship_square = []
-      puts 'Those are invalid coordinates. Please try again:'
+    while @p_board.valid_placement?(submarine, ship_square) == false
+      puts "#{ship_square} are invalid coordinates. Please try again:"
+      ship_square = []
       puts 'Enter the squares for the Submarine (2 spaces):'
-      @ship_square << gets.strip.upcase
-      puts "Square 1: #{ship_square}. Enter Square 2:"
-      @ship_square << gets.strip.upcase
-      @p_board.valid_placement?(submarine, @ship_square)
+      print "Square 1: "
+      ship_square << gets.strip.upcase
+      print "Square 1: "
+      ship_square << gets.strip.upcase
+      @p_board.valid_placement?(submarine, ship_square)
     end
 
-    @p_board.place(submarine, @ship_square)
+    @p_board.place(submarine, ship_square)
 
     system 'clear'
     system 'cls'

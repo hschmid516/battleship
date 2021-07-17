@@ -6,6 +6,14 @@ require './lib/computer'
 
 class Game
 
+  def display_board(player)
+    puts "\n==============PLAYER BOARD=============="
+    puts player.p_board.render(true)
+    puts "\nYou now need to lay out your two ships."
+    sleep 2
+    puts 'The Cruiser is three units long and the Submarine is two units long.'
+  end
+
   def display_boards(com, player)
     system "clear"
     system "cls"
@@ -72,11 +80,10 @@ class Game
 
   def play_turns(board_size)
     com = Computer.new(board_size)
+    player = Player.new(board_size)
     com.com_placement
     com.com_speaks
-    # puts display_boards(com)
-
-    player = Player.new(board_size)
+    puts display_board(player)
     player.player_ships
     puts display_boards(com, player)
     player.turns(com)
