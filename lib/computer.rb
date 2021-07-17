@@ -30,7 +30,6 @@ class Computer
     @com_board = Board.new(board_size)
     @cruiser = Ship.new('Cruiser', 3)
     @submarine = Ship.new('Submarine', 2)
-    # update name to string
     @com_board.place(@cruiser, random_coords(@cruiser, @com_board))
     @com_board.place(@submarine, random_coords(@submarine, @com_board))
   end
