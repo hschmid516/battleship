@@ -5,21 +5,17 @@ require './lib/board'
 require './lib/computer'
 
 class Game
-  def initialize
-  end
 
   def display_boards(com, player)
     system "clear"
     system "cls"
     puts '=============COMPUTER BOARD============='
-    # require 'pry'; binding.pry
     puts com.com_board.render
     puts '==============PLAYER BOARD=============='
     puts player.p_board.render(true)
   end
 
   def win_condition(player, com)
-    # require 'pry'; binding.pry
     return false unless player.cruiser.sunk? == true && player.submarine.sunk?  == true || com.cruiser.sunk? == true && com.submarine.sunk? == true
 
     if player.cruiser.sunk? == true && player.submarine.sunk?  == true
@@ -37,27 +33,8 @@ class Game
   end
 
   def hit_check(com, player)
-    if com.com_board.cells[player.shot_square].render == "X" ||
-        com.com_board.cells[player.shot_square].render == "H"
-      puts "Your shot on #{player.shot_square} was a hit!"
-    else
-      puts "Your shot on #{player.shot_square} was a miss."
-    end
-
-    if player.p_board.cells[com.shot_square].render == "X" ||
-        player.p_board.cells[com.shot_square].render == "H"
-      puts "My shot on #{com.shot_square} was a hit!"
-    else
-      puts "My shot on #{com.shot_square} was a miss!"
-    end
-
-    if com.com_board.cells[player.shot_square].render == "X"
-      puts "You sunk a ship!"
-    end
-
-    if player.p_board.cells[com.shot_square].render == "X"
-      puts "I sunk a ship!"
-    end
+    player.hit_check(com)
+    com.hit_check(player)
 
     puts 'Press any key to continue'
     STDIN.getch

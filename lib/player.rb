@@ -70,6 +70,18 @@ class Player
       STDIN.getch
     end
 
+    def hit_check(com)
+      if com.com_board.cells[@shot_square].render == "X" ||
+          com.com_board.cells[@shot_square].render == "H"
+        puts "Your shot on #{shot_square} was a hit!"
+      else
+        puts "Your shot on #{shot_square} was a miss."
+      end
+
+      if com.com_board.cells[@shot_square].render == "X"
+        puts "You sunk a ship!"
+      end
+    end
 
     def turns(com)
       puts "Enter the coordinate for your shot:"

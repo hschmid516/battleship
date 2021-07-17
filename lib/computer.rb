@@ -9,10 +9,10 @@ class Computer
               :shot_square
 
   def initialize(board_size)
-    @board_size = board_size
-    @com_board = com_board
-    @cruiser = cruiser
-    @submarine = submarine
+    @board_size  = board_size
+    @com_board   = com_board
+    @cruiser     = cruiser
+    @submarine   = submarine
     @shot_square = nil
   end
 
@@ -44,6 +44,19 @@ class Computer
     end
     player.p_board.cells[@shot_square].fire_upon
     player.p_board.cells[@shot_square].render
+  end
+
+  def hit_check(player)
+    if player.p_board.cells[@shot_square].render == "X" ||
+        player.p_board.cells[@shot_square].render == "H"
+      puts "My shot on #{shot_square} was a hit!"
+    else
+      puts "My shot on #{shot_square} was a miss!"
+    end
+
+    if player.p_board.cells[@shot_square].render == "X"
+      puts "I sunk a ship!"
+    end
   end
 
   def com_speaks
