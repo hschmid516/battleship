@@ -13,7 +13,7 @@
 
 
 
-###Things needed for smarter computer(computer.turns)
+### Things needed for smarter computer(computer.turns)
 1. Computer shot results will be recorded in an array
 2. First shot is fine being randomized, but will need a new loop for if a
  random shot hits a ship
