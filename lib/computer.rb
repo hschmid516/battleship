@@ -9,10 +9,10 @@ class Computer
               :shot_square
 
   def initialize(board_size)
-    @board_size = board_size
-    @com_board = com_board
-    @cruiser = cruiser
-    @submarine = submarine
+    @board_size  = board_size
+    @com_board   = com_board
+    @cruiser     = cruiser
+    @submarine   = submarine
     @shot_square = nil
   end
 
@@ -22,15 +22,14 @@ class Computer
     if @com_board.valid_placement?(ship, coords) == false
       coords = @com_board.cells.keys.sample(ship.length) until
         @com_board.valid_placement?(ship, coords) == true
-      coords
     end
+    coords
   end
 
   def com_placement
     @com_board = Board.new(board_size)
     @cruiser = Ship.new('Cruiser', 3)
     @submarine = Ship.new('Submarine', 2)
-    # update name to string
     @com_board.place(@cruiser, random_coords(@cruiser, @com_board))
     @com_board.place(@submarine, random_coords(@submarine, @com_board))
   end
@@ -44,6 +43,19 @@ class Computer
     end
     player.p_board.cells[@shot_square].fire_upon
     player.p_board.cells[@shot_square].render
+  end
+
+  def hit_check(player)
+    if player.p_board.cells[@shot_square].render == "X" ||
+        player.p_board.cells[@shot_square].render == "H"
+      puts "My shot on #{shot_square} was a hit!"
+    else
+      puts "My shot on #{shot_square} was a miss!"
+    end
+
+    if player.p_board.cells[@shot_square].render == "X"
+      puts "I sunk a ship!"
+    end
   end
 
   def com_speaks
