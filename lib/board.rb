@@ -26,7 +26,7 @@ class Board
 
     letters = coords.map { |coord| coord[0] }
 
-    ('A'..@size[0].chr).each_cons(coords.length) { |letter| letter_range << letter }
+    ('A'..(@size[0].chr)).each_cons(coords.length) { |letter| letter_range << letter }
 
     letter_range.any? { |letter| letter == letters }
   end
