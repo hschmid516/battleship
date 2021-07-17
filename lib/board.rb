@@ -6,8 +6,8 @@ class Board
     @ship  = ship
     @size  = size
     @cells = cell_grid = {}
-             num = 1..@size
-             ltr = 65.chr..(64 + @size).chr
+             num = 1..@size[1]
+             ltr = 65.chr..(64 + @size[0]).chr
              num.map do |num|
                ltr.map do |ltr|
                  coord = ltr + num.to_s
@@ -75,7 +75,7 @@ class Board
     loop do
       board << " #{i}"
       i += 1
-      break if i > @size
+      break if i > @size[1]
     end
     board << " \n"
     j = 0
@@ -85,11 +85,11 @@ class Board
       loop do
         board << "#{@cells[((65 + j).chr + k.to_s)].render(show_ship)} "
         k += 1
-        break if k > @size
+        break if k > @size[1]
       end
       board << "\n"
       j += 1
-      break if j >= @size
+      break if j >= @size[0]
     end
     board.join
   end

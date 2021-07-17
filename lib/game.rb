@@ -6,6 +6,14 @@ require './lib/computer'
 
 class Game
 
+  def display_board(player)
+    puts "\n==============PLAYER BOARD=============="
+    puts player.p_board.render(true)
+    puts "\nYou now need to lay out your two ships."
+    sleep 2
+    puts 'The Cruiser is three units long and the Submarine is two units long.'
+  end
+
   def display_boards(com, player)
     system "clear"
     system "cls"
@@ -72,11 +80,10 @@ class Game
 
   def play_turns(board_size)
     com = Computer.new(board_size)
+    player = Player.new(board_size)
     com.com_placement
     com.com_speaks
-    # puts display_boards(com)
-
-    player = Player.new(board_size)
+    puts display_board(player)
     player.player_ships
     puts display_boards(com, player)
     player.turns(com)
@@ -90,6 +97,22 @@ class Game
       hit_check(com, player)
       puts display_boards(com, player)
     end
+  end
+
+  def get_board_size
+    print "Please choose a board size:\nHeight:"
+    height = gets.strip.to_i
+
+    while height.class != Integer
+      height = gets.strip.to_i
+    end
+    print "Please choose a board width:\nWidth:"
+    width = gets.strip.to_i
+
+    while width.class != Integer
+      width = gets.strip.to_i
+    end
+    size = [height, width]
   end
 
   def play
@@ -122,15 +145,15 @@ class Game
     end
 
     if game_mode == '4'
-      play_turns(4)
+      play_turns([4,4])
     end
 
     if game_mode == 't'
-      play_turns(10)
+      play_turns([10,10])
     end
 
     if game_mode == 'c'
-      # We start the custom game from here
+      play_turns(get_board_size)
     end
 
     if game_mode == 'q'
