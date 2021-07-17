@@ -23,6 +23,49 @@ class Game
     puts player.p_board.render(true)
   end
 
+  def create_ships
+    cs_name = ''
+    cs_length = 0
+    num_check = 0
+    continue = 'y'
+    puts "Create ship number 1"
+    puts "What is the name of the ship?"
+    cs_name = gets.strip.to_s
+    puts "What is the length of the ship?"
+    num_check = gets.strip.to_i
+    require 'pry'; binding.pry
+    while num_check > 0 == false
+      puts "Please input an integer."
+      num_check = gets.strip.to_i
+    end
+    cs_length = num_check
+    customvarnamegoeshere = Ship.new(cs_name, cs_length)
+    puts "Would you like to make another ship? [Y]es or [N]o"
+    continue = gets.strip.downcase
+    while continue != 'n'
+      i = 2
+      if continue == 'y'
+        puts "Create ship number #{i}"
+        puts "What is the name of the ship?"
+        cs_name = gets.strip.to_s
+        puts "What is the length of the ship?"
+        num_check = gets.strip.to_i
+        while num_check > 0 == false
+          puts "Please input an integer."
+          num_check = gets.strip.to_i
+        end
+        cs_length = num_check
+        customvarnamegoeshere = Ship.new(cs_name, cs_length)
+        i += 1
+      else
+        puts "Please enter y or n"
+        continue = gets.strip.downcase
+      end
+    end
+      puts "All ships have been created. Press any key to continue"
+      STDIN.getch
+  end
+
   def win_condition(player, com)
     return false unless player.cruiser.sunk? == true && player.submarine.sunk?  == true || com.cruiser.sunk? == true && com.submarine.sunk? == true
 
@@ -153,6 +196,7 @@ class Game
     end
 
     if game_mode == 'c'
+      create_ships
       play_turns(get_board_size)
     end
 
