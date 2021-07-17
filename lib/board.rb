@@ -85,11 +85,11 @@ class Board
       loop do
         board << "#{@cells[((65 + j).chr + k.to_s)].render(show_ship)} "
         k += 1
-        break if k > @size[0]
+        break if k > @size[1]
       end
       board << "\n"
       j += 1
-      break if j >= @size
+      break if j >= @size[0]
     end
     board.join
   end

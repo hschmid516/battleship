@@ -22,8 +22,8 @@ class Computer
     if @com_board.valid_placement?(ship, coords) == false
       coords = @com_board.cells.keys.sample(ship.length) until
         @com_board.valid_placement?(ship, coords) == true
-      coords
     end
+    coords
   end
 
   def com_placement
