@@ -34,8 +34,7 @@ class Board
   def numbers_consecutive?(coords)
     num_range = []
 
-    numbers = coords.map { |coord| coord[1].to_i }
-
+    numbers = coords.map { |coord| coord[1, 2].to_i }
     (1..@size[1]).each_cons(coords.length) { |num| num_range << num }
 
     num_range.any? { |num| num == numbers }
@@ -46,7 +45,8 @@ class Board
   end
 
   def same_numbers?(coords)
-    coords.all? { |coord| coord[1] == coords[0][1] }
+    coords.all? { |coord|
+      coord[1, 2] == coords[0][1, 2] }
   end
 
   def length_valid?(ship, coords)

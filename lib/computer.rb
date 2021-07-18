@@ -62,6 +62,6 @@ class Computer
     system "clear"
     system "cls"
     puts 'I have laid out my ships on the grid.'
-    sleep 2
+    # sleep 2
   end
 end
