@@ -51,6 +51,18 @@ class Computer
     @com_board.place(@cruiser, random_coords(@battleship, @com_board))
   end
 
+  def first_turn(player)
+    @shot_square = player.p_board.cells.keys.sample(1).join
+    if player.p_board.cells[@shot_square].fired_upon? == true
+      @shot_square = player.p_board.cells.keys.sample(1).join until
+        player.p_board.cells[@shot_square].fired_upon? == false
+
+    end
+    player.p_board.cells[@shot_square].fire_upon
+    player.p_board.cells[@shot_square].render
+  end
+
+
   def turns(player)
     @shot_square = player.p_board.cells.keys.sample(1).join
     if player.p_board.cells[@shot_square].fired_upon? == true
