@@ -146,6 +146,10 @@ class Game
     com.turns(player)
     hit_check(com, player)
     puts display_boards(com, player)
+    player.turns(com)
+    com.first_turn(player)
+    hit_check(com, player)
+    puts display_boards(com, player)
 
     while win_condition(player, com) == false
       player.turns(com)
