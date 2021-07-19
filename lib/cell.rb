@@ -1,3 +1,5 @@
+require 'colorize'
+
 class Cell
   attr_reader :coordinate,
               :ship,
@@ -29,18 +31,18 @@ class Cell
   def render(show_ship = false)
     if @ship.nil?
       if fired_upon
-        'M'
+        '◉'.colorize(:white)
       else
-        '.'
+        '❑'.colorize(:light_blue)
       end
     elsif ship.sunk?
-      'X'
+      '҉'.colorize(:orange)
     elsif fired_upon
-      'H'
+      '⊗'.colorize(:red)
     elsif show_ship == true
-      'S'
+      '■'.colorize(:gray)
     else
-      '.'
+      '❑'.colorize(:light_blue)
     end
   end
 end
