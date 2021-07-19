@@ -5,10 +5,13 @@ require './lib/board'
 require './lib/computer'
 
 class Game
-  attr_reader :game_mode
+  attr_reader :game_mode,
+              :ship_array
 
   def initialize
     @game_mode = game_mode
+    @p_array = []
+    @c_array = []
   end
 
   def display_board(player)
@@ -44,11 +47,12 @@ class Game
       num_check = gets.strip.to_i
     end
     cs_length = num_check
-    customvarnamegoeshere = Ship.new(cs_name, cs_length)
+    @p_array << Ship.new(cs_name, cs_length)
+    @c_array << Ship.new(cs_name, cs_length)
     puts "Would you like to make another ship? [Y]es or [N]o"
     continue = gets.strip.downcase
+    i = 2
     while continue != 'n'
-      i = 2
       if continue == 'y'
         puts "Create ship number #{i}"
         puts "What is the name of the ship?"
@@ -60,8 +64,11 @@ class Game
           num_check = gets.strip.to_i
         end
         cs_length = num_check
-        customvarnamegoeshere = Ship.new(cs_name, cs_length)
+        @p_array << Ship.new(cs_name, cs_length)
+        @c_array << Ship.new(cs_name, cs_length)
         i += 1
+        puts "Would you like to make another ship? [Y]es or [N]o"
+        continue = gets.strip.downcase
       else
         puts "Please enter y or n"
         continue = gets.strip.downcase
