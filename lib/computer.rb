@@ -11,7 +11,7 @@ class Computer < Player
 
   def initialize(board_size)
     @board_size  = board_size
-    @com_board   = com_board
+    @com_board   = Board.new(board_size)
     @ships       = []
     @shot_square = nil
   end
@@ -26,15 +26,17 @@ class Computer < Player
     coords
   end
 
+  def create_ships(ships)
+    @ships = ships
+  end
+
   def com_placement
-    @com_board = Board.new(board_size)
     @ships.each do |ship|
       @com_board.place(ship, random_coords(ship, @com_board))
     end
   end
 
   def com_trad_placement
-    @com_board = Board.new(board_size)
     @destroyer = Ship.new('Destroyer', 2)
     @cruiser = Ship.new('Cruiser', 3)
     @submarine = Ship.new('Submarine', 3)

@@ -19,7 +19,28 @@ class Player
     @ships << Ship.new('Submarine', 2)
   end
 
-  def player_ships
+  def create_ships
+    puts 'How many ships would you like to create?'
+    num_ship = gets.strip.to_i
+    i = 1
+    num_ship.times do
+      puts "\nCreate ship number #{i}"
+      puts "What is the name of the ship?"
+      cs_name = gets.strip.capitalize
+      puts "What is the length of the ship?"
+      cs_length = gets.strip.to_i
+      while cs_length < 0
+        puts "Please input an integer."
+        cs_length = gets.strip.to_i
+      end
+      @ships << Ship.new(cs_name, cs_length)
+      i += 1
+    end
+      puts "All ships have been created. Press any key to continue"
+      STDIN.getch
+  end
+
+  def place_ships
     @ships.each do |ship|
       puts "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
       @ship_squares = gets.strip.upcase.split

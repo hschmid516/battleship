@@ -10,8 +10,6 @@ class Game
 
   def initialize
     @game_mode = game_mode
-    @p_array = []
-    @c_array = []
   end
 
   def display_board(player)
@@ -29,28 +27,6 @@ class Game
     puts com.com_board.render
     puts '==============PLAYER BOARD=============='
     puts player.p_board.render(true)
-  end
-
-  def create_ships
-    puts 'How many ships would you like to create?'
-    num_ship = gets.strip.to_i
-    i = 1
-    num_ship.times do
-      puts "Create ship number #{i}"
-      puts "What is the name of the ship?"
-      cs_name = gets.strip.capitalize
-      puts "What is the length of the ship?"
-      cs_length = gets.strip.to_i
-      while cs_length < 0
-        puts "Please input an integer."
-        cs_length = gets.strip.to_i
-      end
-      @p_array << Ship.new(cs_name, cs_length)
-      @c_array << Ship.new(cs_name, cs_length)
-      i += 1
-    end
-      puts "All ships have been created. Press any key to continue"
-      STDIN.getch
   end
 
   def win_condition(player, com)
@@ -117,17 +93,17 @@ class Game
     if @game_mode == '4'
       player.four_by_four_ships
       com.four_by_four_ships
-      com.com_placement
     elsif @game_mode == 't'
       com.com_trad_placement
+    elsif @game_mode == 'c'
+      player.create_ships
+      com.create_ships(player.ships)
     end
+    com.com_placement
     com.com_speaks
     puts display_board(player)
-    if @game_mode == '4'
-      player.player_ships
-    elsif @game_mode == 't'
-      player.trad_ships
-    end
+    player.place_ships
+
     puts display_boards(com, player)
     player.turns(com)
     com.turns(player)
@@ -146,13 +122,13 @@ class Game
     print "Please choose a board size:\nHeight:"
     height = gets.strip.to_i
 
-    while height.class != Integer
+    while height < 0
       height = gets.strip.to_i
     end
     print "Please choose a board width:\nWidth:"
     width = gets.strip.to_i
 
-    while width.class != Integer
+    while width < 0
       width = gets.strip.to_i
     end
     size = [height, width]
@@ -161,8 +137,7 @@ class Game
   def play
     system "clear"
     system "cls"
-    print "                        "
-    print("Welcome to...\n")
+    print("                        Welcome to...\n")
     print("
     ██████╗  █████╗ ████████╗████████╗██╗     ███████╗███████╗██╗  ██╗██╗██████╗
     ██╔══██╗██╔══██╗╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔════╝██║  ██║██║██╔══██╗
@@ -196,8 +171,8 @@ class Game
     end
 
     if @game_mode == 'c'
-      create_ships
-      play_turns(get_board_size)
+      size = get_board_size
+      play_turns(size)
     end
 
     if @game_mode == 'q'
