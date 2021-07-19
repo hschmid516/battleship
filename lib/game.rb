@@ -17,7 +17,6 @@ class Game
     puts player.p_board.render(true)
     puts "\nYou now need to lay out your ships."
     # sleep 2
-    # puts 'The Cruiser is three units long and the Submarine is two units long.'
   end
 
   def display_boards(com, player)
@@ -33,15 +32,15 @@ class Game
     if player.ships.all? do |ship|
         ship.sunk?
       end
-      puts "\nYou lose!\n"
-      puts 'Press any key to continue'
+      puts "\nYou lose!"
+      puts "\nPress any key to return to main menu."
       STDIN.getch
       play
     elsif com.ships.all? do |ship|
         ship.sunk?
       end
-      puts "\nYou win!\n"
-      puts 'Press any key to continue'
+      puts "\nYou win!"
+      puts "\nPress any key to return to main menu."
       STDIN.getch
       play
     else
@@ -87,9 +86,17 @@ class Game
     system "cls"
   end
 
+  def turns(player, com)
+    player.turns(com)
+    com.turns(player)
+    hit_check(com, player)
+    puts display_boards(com, player)
+  end
+
   def play_turns(board_size)
     com = Computer.new(board_size)
     player = Player.new(board_size)
+
     if @game_mode == '4'
       player.four_by_four_ships
       com.four_by_four_ships
@@ -99,33 +106,26 @@ class Game
       player.create_ships
       com.create_ships(player.ships)
     end
+
     com.com_placement
-    com.com_speaks
     puts display_board(player)
     player.place_ships
-
     puts display_boards(com, player)
-    player.turns(com)
-    com.turns(player)
-    hit_check(com, player)
-    puts display_boards(com, player)
+    turns(player, com)
 
     while win_condition(player, com) == false
-      player.turns(com)
-      com.turns(player)
-      hit_check(com, player)
-      puts display_boards(com, player)
+      turns(player, com)
     end
   end
 
   def get_board_size
-    print "Please choose a board size:\nHeight:"
+    print "Please choose a board size:\nHeight: "
     height = gets.strip.to_i
 
     while height < 0
       height = gets.strip.to_i
     end
-    print "Please choose a board width:\nWidth:"
+    print "Please choose a board width:\nWidth: "
     width = gets.strip.to_i
 
     while width < 0

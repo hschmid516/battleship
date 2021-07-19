@@ -34,6 +34,10 @@ class Computer < Player
     @ships.each do |ship|
       @com_board.place(ship, random_coords(ship, @com_board))
     end
+    system "clear"
+    system "cls"
+    puts 'I have laid out my ships on the grid.'
+    # sleep 2
   end
 
   def com_trad_placement
@@ -70,12 +74,5 @@ class Computer < Player
     if player.p_board.cells[@shot_square].render == "X"
       puts "I sunk a ship!"
     end
-  end
-
-  def com_speaks
-    system "clear"
-    system "cls"
-    puts 'I have laid out my ships on the grid.'
-    # sleep 2
   end
 end

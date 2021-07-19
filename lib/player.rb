@@ -55,32 +55,6 @@ class Player
         @p_board.place(ship, @ship_squares)
     end
 
-    system "clear"
-    system "cls"
-    puts @p_board.render(true)
-
-    # @ship_squares = []
-    # puts 'Enter the squares for the Submarine (2 spaces):'
-    # print "Square 1: "
-    # @ship_squares << gets.strip.upcase
-    # print "Square 1: "
-    # @ship_squares << gets.strip.upcase
-    # # @submarine = Ship.new('Submarine', 2)
-    # @p_board.valid_placement?(submarine, @ship_squares)
-    #
-    # while @p_board.valid_placement?(submarine, @ship_squares) == false
-    #   puts "#{@ship_squares} are invalid coordinates. Please try again:"
-    #   @ship_squares = []
-    #   puts 'Enter the squares for the Submarine (2 spaces):'
-    #   print "Square 1: "
-    #   @ship_squares << gets.strip.upcase
-    #   print "Square 1: "
-    #   @ship_squares << gets.strip.upcase
-    #   @p_board.valid_placement?(submarine, @ship_squares)
-    # end
-    #
-    # @p_board.place(submarine, @ship_squares)
-
     system 'clear'
     system 'cls'
     puts @p_board.render(true)
