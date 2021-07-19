@@ -26,14 +26,16 @@ class Player
     num_ship.times do
       puts "\nCreate ship number #{i}"
       puts "What is the name of the ship?"
-      cs_name = gets.strip.capitalize
+      ship_name = gets.strip.capitalize
       puts "What is the length of the ship?"
-      cs_length = gets.strip.to_i
-      while cs_length < 0
+      ship_length = gets.strip.to_i
+
+      while ship_length < 0
         puts "Please input an integer."
-        cs_length = gets.strip.to_i
+        ship_length = gets.strip.to_i
       end
-      @ships << Ship.new(cs_name, cs_length)
+
+      @ships << Ship.new(ship_name, ship_length)
       i += 1
     end
       puts "All ships have been created. Press any key to continue"

@@ -93,6 +93,14 @@ class Game
     puts display_boards(com, player)
   end
 
+  def place_ships
+    com.com_placement
+    puts display_board(player)
+    player.place_ships
+    puts display_boards(com, player)
+    turns(player, com)
+  end
+
   def play_turns(board_size)
     com = Computer.new(board_size)
     player = Player.new(board_size)
@@ -106,12 +114,7 @@ class Game
       player.create_ships
       com.create_ships(player.ships)
     end
-
-    com.com_placement
-    puts display_board(player)
-    player.place_ships
-    puts display_boards(com, player)
-    turns(player, com)
+    place_ships
 
     while win_condition(player, com) == false
       turns(player, com)
