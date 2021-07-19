@@ -79,19 +79,22 @@ class Game
   end
 
   def win_condition(player, com)
-    return false unless player.cruiser.sunk? == true && player.submarine.sunk?  == true || com.cruiser.sunk? == true && com.submarine.sunk? == true
-
-    if player.cruiser.sunk? == true && player.submarine.sunk?  == true
+    if player.ships.all? do |ship|
+        ship.sunk?
+      end
       puts "\nYou lose!\n"
-      puts 'Press any key to return to main menu.'
+      puts 'Press any key to continue'
       STDIN.getch
       play
-
-    elsif com.cruiser.sunk? == true && com.submarine.sunk? == true
+    elsif com.ships.all? do |ship|
+        ship.sunk?
+      end
       puts "\nYou win!\n"
-      puts 'Press any key to return to main menu.'
+      puts 'Press any key to continue'
       STDIN.getch
       play
+    else
+      false
     end
   end
 
@@ -137,6 +140,8 @@ class Game
     com = Computer.new(board_size)
     player = Player.new(board_size)
     if @game_mode == '4'
+      player.four_by_four_ships
+      com.four_by_four_ships
       com.com_placement
     elsif @game_mode == 't'
       com.com_trad_placement
