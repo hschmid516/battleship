@@ -30,9 +30,8 @@ class Computer < Player
   end
 
   def get_ships(ships)
-    @ships = ships
+    @ships = ships.map { |ship| Ship.new(ship.name, ship.length) }
   end
-
 
   def com_placement
     @ships.each do |ship|
@@ -93,8 +92,8 @@ class Computer < Player
   end
 
   def hit_check(player)
-    if player.p_board.cells[@shot_square].render == '▼'.colorize(:magenta) ||
-       player.p_board.cells[@shot_square].render == '⊗'.colorize(:red)
+
+    if player.p_board.cells[@shot_square].render == '▼'.colorize(:magenta) || player.p_board.cells[@shot_square].render == '⊗'.colorize(:red)
       puts "My shot on #{shot_square} was a hit!"
     else
       puts "My shot on #{shot_square} was a miss."
