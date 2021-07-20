@@ -46,6 +46,7 @@ class Player
       end
     puts "All ships have been created. Press any key to continue"
     STDIN.getch
+    @ships
   end
 
   def place_ships
@@ -60,7 +61,7 @@ class Player
         @p_board.valid_placement?(ship, @ship_squares)
       end
       @p_board.place(ship, @ship_squares)
-    end 
+    end
     system 'clear'
     system 'cls'
     puts @p_board.render(true)
@@ -87,13 +88,15 @@ class Player
     while com.com_board.valid_coordinate?(@shot_square) == false
       puts "Please enter a valid coordinate:"
       @shot_square = gets.strip.upcase
-      com.com_board.valid_coordinate?(@shot_square)
     end
 
     while com.com_board.cells[@shot_square].fired_upon? == true
       puts "You have already fired here. Try again:"
       @shot_square = gets.strip.upcase
-      com.com_board.cells[@shot_square].fired_upon?
+        while com.com_board.valid_coordinate?(@shot_square) == false
+          puts "Please enter a valid coordinate:"
+          @shot_square = gets.strip.upcase
+        end
     end
 
     com.com_board.cells[@shot_square].fire_upon

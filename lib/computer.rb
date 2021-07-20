@@ -30,7 +30,7 @@ class Computer < Player
   end
 
   def get_ships(ships)
-    @ships = ships
+    @ships = ships.map { |ship| Ship.new(ship.name, ship.length) }
   end
 
   def com_placement
@@ -92,8 +92,7 @@ class Computer < Player
   end
 
   def hit_check(player)
-    if player.p_board.cells[@shot_square].render == 'X' ||
-       player.p_board.cells[@shot_square].render == 'H'
+    if player.p_board.cells[@shot_square].render == 'X' || player.p_board.cells[@shot_square].render == 'H'
       puts "My shot on #{shot_square} was a hit!"
     else
       puts "My shot on #{shot_square} was a miss."

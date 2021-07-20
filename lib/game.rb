@@ -28,7 +28,11 @@ class Game
   end
 
   def win_condition(player, com)
-    if player.ships.all? { |ship| ship.sunk? }
+    if player.ships.all? { |ship| ship.sunk? } && com.ships.all? { |ship| ship.sunk? }
+        puts puts "\nYou...tied?!"
+        puts "\nPress any key to return to main menu."
+        STDIN.getc
+    elsif player.ships.all? { |ship| ship.sunk? }
       puts "\nYou lose!"
       puts "\nPress any key to return to main menu."
       STDIN.getch
@@ -44,10 +48,8 @@ class Game
   end
 
   def hit_check(com, player)
-    # require 'pry'; binding.pry
     player.hit_check(com)
     com.hit_check(player)
-
     puts 'Press any key to continue'
     STDIN.getch
   end
