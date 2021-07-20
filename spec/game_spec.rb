@@ -11,16 +11,24 @@ RSpec.describe Game do
       expect(game).to be_a(Game)
     end
 
-    xit 'can place ships randomly for com' do
+    it 'starts out without a game mode' do
       game = Game.new
 
-      expect()
+      expect(game.game_mode).to be nil
     end
 
-    it 'returns the board when the com places ships' do
+    it 'displays both boards for turns method' do
       game = Game.new
-      # require 'pry'; binding.pry
-      expect(game.com_board).to be_a(Board)
+      game.play_turns([4, 4])
+
+      expect(game.turns(player, com)).to eq(puts display_boards(com, player))
     end
+
+    # it 'returns the board when the com places ships' do
+    #   game = Game.new
+    #   com = Computer.new([4, 4])
+    #   # require 'pry'; binding.pry
+    #   expect(com.com_board).to be_a(Board)
+    # end
   end
 end
