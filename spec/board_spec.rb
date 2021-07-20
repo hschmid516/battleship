@@ -6,13 +6,13 @@ require './lib/cell'
 RSpec.describe Board do
   context 'Creating the board' do
     it 'exists' do
-      board = Board.new(4)
+      board = Board.new([4,4])
 
       expect(board).to be_a(Board)
     end
 
     it 'creates a board' do
-      board = Board.new(4)
+      board = Board.new([4,4])
 
       expect(board.cells).to be_a(Hash)
       expect(board.cells.keys.length).to eq(16)
@@ -23,7 +23,7 @@ RSpec.describe Board do
 
   context 'Creating the board' do
     it 'can validate coordinates' do
-      board = Board.new(4)
+      board = Board.new([4,4])
       board.cells
 
       expect(board.valid_coordinate?("A1")).to be true
@@ -34,7 +34,7 @@ RSpec.describe Board do
     end
 
     it 'confirms coordinates = ship length' do
-      board = Board.new(4)
+      board = Board.new([4,4])
       cruiser = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
 
@@ -44,7 +44,7 @@ RSpec.describe Board do
     end
 
     it 'confirms coordinates are consecutive'do
-      board = Board.new(4)
+      board = Board.new([4,4])
       cruiser = Ship.new("Cruiser", 3)
       submarine = Ship.new("Submarine", 2)
 
@@ -61,7 +61,7 @@ RSpec.describe Board do
 
   context 'Placing ships' do
     it 'shows a ship is placed on multiple cells' do
-      board = Board.new(4)
+      board = Board.new([4,4])
       cruiser = Ship.new("Cruiser", 3)
 
       board.place(cruiser, ["A1", "A2", "A3"])
@@ -76,7 +76,7 @@ RSpec.describe Board do
     end
 
     it 'verifies ships are not overlapping' do
-      board = Board.new(4)
+      board = Board.new([4,4])
       cruiser = Ship.new("Cruiser", 3)
 
       board.place(cruiser, ["A1", "A2", "A3"])
@@ -87,19 +87,20 @@ RSpec.describe Board do
   end
 
   context 'Rendering the board' do
-    it 'renders' do
-      board = Board.new(4)
+    xit 'renders' do
+      board = Board.new([4,4])
       cruiser = Ship.new('Cruiser', 3)
       board.place(cruiser, %w[A1 A2 A3])
-      expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
+
+      expect(board.render).to eq("  1 2 3 4 \nA ❑ ❑ ❑ ❑ \nB ❑ ❑ ❑ ❑ \nC ❑ ❑ ❑ ❑ \nD ❑ ❑ ❑ ❑ \n")
     end
 
-    it 'renders and shows a ship' do
-      board = Board.new(4)
+    xit 'renders and shows a ship' do
+      board = Board.new([4,4])
       cruiser = Ship.new('Cruiser', 3)
       board.place(cruiser, %w[A1 A2 A3])
 
-      expect(board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
+      expect(board.render(true)).to eq("  1 2 3 4 \nA ■ ■ ■ ❑ \nB ❑ ❑ ❑ ❑ \nC ❑ ❑ ❑ ❑ \nD ❑ ❑ ❑ ❑ \n")
     end
   end
 end
