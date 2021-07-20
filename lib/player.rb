@@ -70,14 +70,13 @@ class Player
   end
 
   def hit_check(com)
-    if com.com_board.cells[@shot_square].render == "X" ||
-        com.com_board.cells[@shot_square].render == "H"
+    if com.com_board.cells[@shot_square].render == '▼'.colorize(:magenta) || com.com_board.cells[@shot_square].render == '⊗'.colorize(:red)
       puts "Your shot on #{@shot_square} was a hit!"
     else
       puts "Your shot on #{@shot_square} was a miss."
     end
 
-    if com.com_board.cells[@shot_square].render == "X"
+    if com.com_board.cells[@shot_square].render == '▼'.colorize(:magenta)
       puts "You sunk a ship!"
     end
   end
