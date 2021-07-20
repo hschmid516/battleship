@@ -1,7 +1,7 @@
-
 require './lib/board'
 require './lib/ship'
 require './lib/cell'
+require 'colorize'
 
 RSpec.describe Board do
   context 'Creating the board' do
@@ -86,6 +86,7 @@ RSpec.describe Board do
     end
   end
 
+  # These tests were run and passed without colorize in the Cell render method.
   context 'Rendering the board' do
     xit 'renders' do
       board = Board.new([4,4])
@@ -100,7 +101,7 @@ RSpec.describe Board do
       cruiser = Ship.new('Cruiser', 3)
       board.place(cruiser, %w[A1 A2 A3])
 
-      expect(board.render(true)).to eq("  1 2 3 4 \nA ■ ■ ■ ❑ \nB ❑ ❑ ❑ ❑ \nC ❑ ❑ ❑ ❑ \nD ❑ ❑ ❑ ❑ \n")
+      expect(board.render(true)).to eq("  1 2 3 4 \nA ■ ■ ■ ❑ \nB ❑ ❑ ❑ ❑ \nC ❑ ❑ ❑ ❑ \nD ❑ ❑ ❑ ❑ \n".disable_colorization = true)
     end
   end
 end
