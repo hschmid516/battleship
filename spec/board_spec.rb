@@ -88,20 +88,20 @@ RSpec.describe Board do
 
   # These tests were run and passed without colorize in the Cell render method.
   context 'Rendering the board' do
-    xit 'renders' do
+    it 'renders' do
       board = Board.new([4,4])
       cruiser = Ship.new('Cruiser', 3)
       board.place(cruiser, %w[A1 A2 A3])
 
-      expect(board.render).to eq("  1 2 3 4 \nA ❑ ❑ ❑ ❑ \nB ❑ ❑ ❑ ❑ \nC ❑ ❑ ❑ ❑ \nD ❑ ❑ ❑ ❑ \n")
+      expect(board.render.uncolorize).to eq("  1 2 3 4 \nA ❑ ❑ ❑ ❑ \nB ❑ ❑ ❑ ❑ \nC ❑ ❑ ❑ ❑ \nD ❑ ❑ ❑ ❑ \n")
     end
 
-    xit 'renders and shows a ship' do
+    it 'renders and shows a ship' do
       board = Board.new([4,4])
       cruiser = Ship.new('Cruiser', 3)
       board.place(cruiser, %w[A1 A2 A3])
 
-      expect(board.render(true)).to eq("  1 2 3 4 \nA ■ ■ ■ ❑ \nB ❑ ❑ ❑ ❑ \nC ❑ ❑ ❑ ❑ \nD ❑ ❑ ❑ ❑ \n".disable_colorization = true)
+      expect(board.render(true).uncolorize).to eq("  1 2 3 4 \nA ■ ■ ■ ❑ \nB ❑ ❑ ❑ ❑ \nC ❑ ❑ ❑ ❑ \nD ❑ ❑ ❑ ❑ \n")
     end
   end
 end
