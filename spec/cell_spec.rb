@@ -132,7 +132,7 @@ RSpec.describe Cell do
       cruiser.hit
 
       expect(cruiser.sunk?).to be true
-      expect(cell_2.render).to eq('▼'.colorize(:orange))
+      expect(cell_2.render).to eq('▼'.colorize(:magenta))
     end
   end
 end
