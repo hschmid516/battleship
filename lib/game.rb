@@ -14,7 +14,7 @@ class Game
   def display_board(player)
     puts "\n==============PLAYER BOARD=============="
     puts player.p_board.render(true)
-    puts "\nYou now need to lay out your two ships."
+    puts "\nYou now need to lay out your ships."
     # sleep 2
   end
 
@@ -44,6 +44,7 @@ class Game
   end
 
   def hit_check(com, player)
+    # require 'pry'; binding.pry
     player.hit_check(com)
     com.hit_check(player)
 
@@ -122,13 +123,13 @@ class Game
     print "Please choose a board size:\nHeight: "
     height = gets.strip.to_i
 
-    while height.class < 0
+    while height < 0
       height = gets.strip.to_i
     end
     print "Please choose a board width:\nWidth: "
     width = gets.strip.to_i
 
-    while width.class < 0
+    while width < 0
       width = gets.strip.to_i
     end
     size = [height, width]
