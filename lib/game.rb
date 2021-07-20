@@ -5,13 +5,17 @@ require './lib/board'
 require './lib/computer'
 
 class Game
+  attr_reader :game_mode
+
+  def initialize
+    @game_mode = game_mode
+  end
 
   def display_board(player)
     puts "\n==============PLAYER BOARD=============="
     puts player.p_board.render(true)
     puts "\nYou now need to lay out your two ships."
-    sleep 2
-    puts 'The Cruiser is three units long and the Submarine is two units long.'
+    # sleep 2
   end
 
   def display_boards(com, player)
@@ -24,19 +28,18 @@ class Game
   end
 
   def win_condition(player, com)
-    return false unless player.cruiser.sunk? == true && player.submarine.sunk?  == true || com.cruiser.sunk? == true && com.submarine.sunk? == true
-
-    if player.cruiser.sunk? == true && player.submarine.sunk?  == true
-      puts "\nYou lose!\n"
-      puts 'Press any key to return to main menu.'
+    if player.ships.all? { |ship| ship.sunk? }
+      puts "\nYou lose!"
+      puts "\nPress any key to return to main menu."
       STDIN.getch
       play
-
-    elsif com.cruiser.sunk? == true && com.submarine.sunk? == true
-      puts "\nYou win!\n"
-      puts 'Press any key to return to main menu.'
+    elsif com.ships.all? { |ship| ship.sunk? }
+      puts "\nYou win!"
+      puts "\nPress any key to return to main menu."
       STDIN.getch
       play
+    else
+      false
     end
   end
 
@@ -78,38 +81,54 @@ class Game
     system "cls"
   end
 
-  def play_turns(board_size)
-    com = Computer.new(board_size)
-    player = Player.new(board_size)
-    com.com_placement
-    com.com_speaks
-    puts display_board(player)
-    player.player_ships
-    puts display_boards(com, player)
+  def turns(player, com)
     player.turns(com)
     com.turns(player)
     hit_check(com, player)
     puts display_boards(com, player)
+  end
+
+  def place_ships(com, player)
+    com.com_placement
+    puts display_board(player)
+    player.place_ships
+    puts display_boards(com, player)
+    turns(player, com)
+  end
+
+  def play_turns(board_size)
+    com = Computer.new(board_size)
+    player = Player.new(board_size)
+
+    if @game_mode == '4'
+      player.create_ships("4x4")
+      com.create_ships("4x4")
+    elsif @game_mode == 't'
+      player.create_ships('trad')
+      com.create_ships('trad')
+    elsif @game_mode == 'c'
+      player.custom_ships
+      com.get_ships(player.ships)
+    end
+
+    place_ships(com, player)
 
     while win_condition(player, com) == false
-      player.turns(com)
-      com.turns(player)
-      hit_check(com, player)
-      puts display_boards(com, player)
+      turns(player, com)
     end
   end
 
   def get_board_size
-    print "Please choose a board size:\nHeight:"
+    print "Please choose a board size:\nHeight: "
     height = gets.strip.to_i
 
-    while height.class != Integer
+    while height.class < 0
       height = gets.strip.to_i
     end
-    print "Please choose a board width:\nWidth:"
+    print "Please choose a board width:\nWidth: "
     width = gets.strip.to_i
 
-    while width.class != Integer
+    while width.class < 0
       width = gets.strip.to_i
     end
     size = [height, width]
@@ -118,8 +137,7 @@ class Game
   def play
     system "clear"
     system "cls"
-    print "                        "
-    print("Welcome to...\n")
+    print("                        Welcome to...\n")
     print("
     ██████╗  █████╗ ████████╗████████╗██╗     ███████╗███████╗██╗  ██╗██╗██████╗
     ██╔══██╗██╔══██╗╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔════╝██║  ██║██║██╔══██╗
@@ -134,29 +152,30 @@ class Game
 
     puts "Select game mode" +
          "\n\n[4]x4\n[T]raditional\n[C]ustom\n[Q]uit"
-    game_mode = gets.strip.downcase
+    @game_mode = gets.strip.downcase
 
 
-    while game_mode != '4' && game_mode != 't' && game_mode !=
-       'c' && game_mode != 'q'
+    while @game_mode != '4' && @game_mode != 't' && @game_mode !=
+       'c' && @game_mode != 'q'
       puts "\n Please enter 4, t, c, or q"
 
-      game_mode = gets.strip.downcase
+      @game_mode = gets.strip.downcase
     end
 
-    if game_mode == '4'
+    if @game_mode == '4'
       play_turns([4,4])
     end
 
-    if game_mode == 't'
+    if @game_mode == 't'
       play_turns([10,10])
     end
 
-    if game_mode == 'c'
-      play_turns(get_board_size)
+    if @game_mode == 'c'
+      size = get_board_size
+      play_turns(size)
     end
 
-    if game_mode == 'q'
+    if @game_mode == 'q'
       abort "You may have lost the battle, but you also lost the war!"
     end
   end
