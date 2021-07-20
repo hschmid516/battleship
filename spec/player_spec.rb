@@ -19,10 +19,10 @@ RSpec.describe Player do
     player = Player.new(4)
     player.create_ships('trad')
 
-    expect(player.ships[1].name).to eq('Cruiser')
-    expect(player.ships[2].name).to eq('Submarine')
-    expect(player.ships[3].name).to eq('Destroyer')
-    expect(player.ships[4].name).to eq('Battleship')
-    expect(player.ships[5].name).to eq('Carrier')
+    expect(player.ships[0].name).to eq('Cruiser')
+    expect(player.ships[1].name).to eq('Submarine')
+    expect(player.ships[2].name).to eq('Destroyer')
+    expect(player.ships[3].name).to eq('Battleship')
+    expect(player.ships[4].name).to eq('Carrier')
   end
 end
