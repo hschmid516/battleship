@@ -19,7 +19,7 @@ class Player
     @ships << Ship.new('Cruiser', 3)
     @ships << Ship.new('Submarine', 2)
     if mode == 'trad'
-      @ships << Ship.new('Destroyer', 2)
+      @ships << Ship.new('Destroyer', 3)
       @ships << Ship.new('Battleship', 4)
       @ships << Ship.new('Carrier', 5)
     end
