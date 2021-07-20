@@ -5,7 +5,8 @@ require './lib/board'
 require './lib/computer'
 
 class Game
-  attr_reader :game_mode
+  attr_reader :game_mode,
+              :ship_array
 
   def initialize
     @game_mode = game_mode
@@ -16,7 +17,6 @@ class Game
     puts player.p_board.render(true)
     puts "\nYou now need to lay out your ships."
     # sleep 2
-    # puts 'The Cruiser is three units long and the Submarine is two units long.'
   end
 
   def display_boards(com, player)
@@ -28,67 +28,28 @@ class Game
     puts player.p_board.render(true)
   end
 
-  def create_ships
-    cs_name = ''
-    cs_length = 0
-    num_check = 0
-    continue = 'y'
-    puts "Create ship number 1"
-    puts "What is the name of the ship?"
-    cs_name = gets.strip.to_s
-    puts "What is the length of the ship?"
-    num_check = gets.strip.to_i
-    require 'pry'; binding.pry
-    while num_check > 0 == false
-      puts "Please input an integer."
-      num_check = gets.strip.to_i
-    end
-    cs_length = num_check
-    customvarnamegoeshere = Ship.new(cs_name, cs_length)
-    puts "Would you like to make another ship? [Y]es or [N]o"
-    continue = gets.strip.downcase
-    while continue != 'n'
-      i = 2
-      if continue == 'y'
-        puts "Create ship number #{i}"
-        puts "What is the name of the ship?"
-        cs_name = gets.strip.to_s
-        puts "What is the length of the ship?"
-        num_check = gets.strip.to_i
-        while num_check > 0 == false
-          puts "Please input an integer."
-          num_check = gets.strip.to_i
-        end
-        cs_length = num_check
-        customvarnamegoeshere = Ship.new(cs_name, cs_length)
-        i += 1
-      else
-        puts "Please enter y or n"
-        continue = gets.strip.downcase
-      end
-    end
-      puts "All ships have been created. Press any key to continue"
-      STDIN.getch
-  end
-
   def win_condition(player, com)
-    return false unless player.cruiser.sunk? == true && player.submarine.sunk?  == true || com.cruiser.sunk? == true && com.submarine.sunk? == true
-
-    if player.cruiser.sunk? == true && player.submarine.sunk?  == true
-      puts "\nYou lose!\n"
-      puts 'Press any key to return to main menu.'
+    if player.ships.all? do |ship|
+        ship.sunk?
+      end
+      puts "\nYou lose!"
+      puts "\nPress any key to return to main menu."
       STDIN.getch
       play
-
-    elsif com.cruiser.sunk? == true && com.submarine.sunk? == true
-      puts "\nYou win!\n"
-      puts 'Press any key to return to main menu.'
+    elsif com.ships.all? do |ship|
+        ship.sunk?
+      end
+      puts "\nYou win!"
+      puts "\nPress any key to return to main menu."
       STDIN.getch
       play
+    else
+      false
     end
   end
 
   def hit_check(com, player)
+    # require 'pry'; binding.pry
     player.hit_check(com)
     com.hit_check(player)
 
@@ -126,50 +87,54 @@ class Game
     system "cls"
   end
 
-  def play_turns(board_size)
-    com = Computer.new(board_size)
-    player = Player.new(board_size)
-    if @game_mode == '4'
-      com.com_placement
-    elsif @game_mode == 't'
-      com.com_trad_placement
-    end
-    com.com_speaks
-    puts display_board(player)
-    if @game_mode == '4'
-      player.player_ships
-    elsif @game_mode == 't'
-      player.trad_ships
-    end
-    puts display_boards(com, player)
+  def turns(player, com)
     player.turns(com)
     com.turns(player)
     hit_check(com, player)
     puts display_boards(com, player)
-    player.turns(com)
-    com.first_turn(player)
-    hit_check(com, player)
+  end
+
+  def place_ships(com, player)
+    com.com_placement
+    puts display_board(player)
+    player.place_ships
     puts display_boards(com, player)
+    turns(player, com)
+  end
+
+  def play_turns(board_size)
+    com = Computer.new(board_size)
+    player = Player.new(board_size)
+
+    if @game_mode == '4'
+      player.create_ships("4x4")
+      com.create_ships("4x4")
+    elsif @game_mode == 't'
+      player.create_ships('trad')
+      com.create_ships('trad')
+    elsif @game_mode == 'c'
+      player.custom_ships
+      com.get_ships(player.ships)
+    end
+
+    place_ships(com, player)
 
     while win_condition(player, com) == false
-      player.turns(com)
-      com.turns(player)
-      hit_check(com, player)
-      puts display_boards(com, player)
+      turns(player, com)
     end
   end
 
   def get_board_size
-    print "Please choose a board size:\nHeight:"
+    print "Please choose a board size:\nHeight: "
     height = gets.strip.to_i
 
-    while height.class != Integer
+    while height < 0
       height = gets.strip.to_i
     end
-    print "Please choose a board width:\nWidth:"
+    print "Please choose a board width:\nWidth: "
     width = gets.strip.to_i
 
-    while width.class != Integer
+    while width < 0
       width = gets.strip.to_i
     end
     size = [height, width]
@@ -178,8 +143,7 @@ class Game
   def play
     system "clear"
     system "cls"
-    print "                        "
-    print("Welcome to...\n")
+    print("                        Welcome to...\n")
     print("
     ██████╗  █████╗ ████████╗████████╗██╗     ███████╗███████╗██╗  ██╗██╗██████╗
     ██╔══██╗██╔══██╗╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔════╝██║  ██║██║██╔══██╗
@@ -213,8 +177,8 @@ class Game
     end
 
     if @game_mode == 'c'
-      create_ships
-      play_turns(get_board_size)
+      size = get_board_size
+      play_turns(size)
     end
 
     if @game_mode == 'q'
