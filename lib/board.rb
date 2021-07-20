@@ -1,9 +1,7 @@
 class Board
-  attr_reader :ship,
-              :cells
+  attr_reader :cells
 
   def initialize(size)
-    @ship  = ship
     @size  = size
     @cells = cell_grid = {}
              num = 1..@size[1]

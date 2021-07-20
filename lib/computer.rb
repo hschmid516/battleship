@@ -1,5 +1,4 @@
 require './lib/board'
-require './lib/cell'
 require './lib/player'
 
 
@@ -19,7 +18,7 @@ class Computer < Player
     @hits        = []
   end
 
-  def random_coords(ship, _board)
+  def random_coords(ship, board)
     coords = @com_board.cells.keys.sample(ship.length)
 
     if @com_board.valid_placement?(ship, coords) == false
