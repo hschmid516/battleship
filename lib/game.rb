@@ -49,6 +49,7 @@ class Game
   end
 
   def hit_check(com, player)
+    # require 'pry'; binding.pry
     player.hit_check(com)
     com.hit_check(player)
 
@@ -93,7 +94,7 @@ class Game
     puts display_boards(com, player)
   end
 
-  def place_ships
+  def place_ships(com, player)
     com.com_placement
     puts display_board(player)
     player.place_ships
@@ -106,15 +107,17 @@ class Game
     player = Player.new(board_size)
 
     if @game_mode == '4'
-      player.four_by_four_ships
-      com.four_by_four_ships
+      player.create_ships("4x4")
+      com.create_ships("4x4")
     elsif @game_mode == 't'
-      com.com_trad_placement
+      player.create_ships('trad')
+      com.create_ships('trad')
     elsif @game_mode == 'c'
-      player.create_ships
-      com.create_ships(player.ships)
+      player.custom_ships
+      com.get_ships(player.ships)
     end
-    place_ships
+
+    place_ships(com, player)
 
     while win_condition(player, com) == false
       turns(player, com)

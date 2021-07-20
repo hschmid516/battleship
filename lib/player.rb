@@ -14,12 +14,17 @@ class Player
     @shot_square  = nil
   end
 
-  def four_by_four_ships
+  def create_ships(mode)
     @ships << Ship.new('Cruiser', 3)
     @ships << Ship.new('Submarine', 2)
+    if mode == 'trad'
+      @ships << Ship.new('Destroyer', 2)
+      @ships << Ship.new('Battleship', 4)
+      @ships << Ship.new('Carrier', 5)
+    end
   end
 
-  def create_ships
+  def custom_ships
     puts 'How many ships would you like to create?'
     num_ship = gets.strip.to_i
     i = 1
@@ -64,167 +69,9 @@ class Player
     STDIN.getch
   end
 
-  # def trad_ships
-  #   @ship_squares = []
-  #   puts 'Enter the squares for the Destroyer (2 spaces):'
-  #   print "Square 1: "
-  #   @ship_squares << gets.strip.upcase
-  #   print "Square 2: "
-  #   @ship_squares << gets.strip.upcase
-  #   @destroyer = Ship.new('Destroyer', 2)
-  #   @p_board.valid_placement?(destroyer, @ship_squares)
-  #
-  #   while @p_board.valid_placement?(destroyer, @ship_squares) == false
-  #     puts "#{@ship_squares} are invalid coordinates. Please try again:"
-  #     @ship_squares = []
-  #     puts 'Enter the squares for the Destroyer (2 spaces):'
-  #     print "Square 1: "
-  #     @ship_squares << gets.strip.upcase
-  #     print "Square 2: "
-  #     @ship_squares << gets.strip.upcase
-  #     @p_board.valid_placement?(destroyer, @ship_squares)
-  #   end
-  #
-  #   @p_board.place(destroyer, @ship_squares)
-  #   system 'clear'
-  #   system 'cls'
-  #   puts @p_board.render(true)
-  #
-  #   @ship_squares = []
-  #   puts 'Enter the squares for the Cruiser (3 spaces):'
-  #   print "Square 1: "
-  #   @ship_squares << gets.strip.upcase
-  #   print "Square 2: "
-  #   @ship_squares << gets.strip.upcase
-  #   print "Square 3: "
-  #   @ship_squares << gets.strip.upcase
-  #   @cruiser = Ship.new('Cruiser', 3)
-  #   @p_board.valid_placement?(cruiser, @ship_squares)
-  #
-  #   while @p_board.valid_placement?(cruiser, @ship_squares) == false
-  #     puts "#{@ship_squares} are invalid coordinates. Please try again:"
-  #     @ship_squares = []
-  #     puts 'Enter the squares for the Cruiser (3 spaces):'
-  #     print "Square 1: "
-  #     @ship_squares << gets.strip.upcase
-  #     print "Square 2: "
-  #     @ship_squares << gets.strip.upcase
-  #     print "Square 3: "
-  #     @ship_squares << gets.strip.upcase
-  #     @p_board.valid_placement?(cruiser, @ship_squares)
-  #   end
-  #
-  #   @p_board.place(cruiser, @ship_squares)
-  #   system "clear"
-  #   system "cls"
-  #   puts @p_board.render(true)
-  #
-  #   @ship_squares = []
-  #   puts 'Enter the squares for the Submarine (3 spaces):'
-  #   print "Square 1: "
-  #   @ship_squares << gets.strip.upcase
-  #   print "Square 2: "
-  #   @ship_squares << gets.strip.upcase
-  #   print "Square 3: "
-  #   @ship_squares << gets.strip.upcase
-  #   # @submarine = Ship.new('Submarine', 3)
-  #   @p_board.valid_placement?(submarine, @ship_squares)
-  #
-  #   while @p_board.valid_placement?(submarine, @ship_squares) == false
-  #     puts "#{@ship_squares} are invalid coordinates. Please try again:"
-  #     @ship_squares = []
-  #     puts 'Enter the squares for the Submarine (3 spaces):'
-  #     print "Square 1: "
-  #     @ship_squares << gets.strip.upcase
-  #     print "Square 2: "
-  #     @ship_squares << gets.strip.upcase
-  #     print "Square 3: "
-  #     @ship_squares << gets.strip.upcase
-  #     @p_board.valid_placement?(submarine, @ship_squares)
-  #   end
-  #
-  #   @p_board.place(submarine, @ship_squares)
-  #   system 'clear'
-  #   system 'cls'
-  #   puts @p_board.render(true)
-  #
-  #   @ship_squares = []
-  #   puts 'Enter the squares for the Battleship (4 spaces):'
-  #   print "Square 1: "
-  #   @ship_squares << gets.strip.upcase
-  #   print "Square 2: "
-  #   @ship_squares << gets.strip.upcase
-  #   print "Square 3: "
-  #   @ship_squares << gets.strip.upcase
-  #   print "Square 4: "
-  #   @ship_squares << gets.strip.upcase
-  #   @battleship = Ship.new('Battleship', 4)
-  #   @p_board.valid_placement?(battleship, @ship_squares)
-  #
-  #   while @p_board.valid_placement?(battleship, @ship_squares) == false
-  #     puts "#{@ship_squares} are invalid coordinates. Please try again:"
-  #     @ship_squares = []
-  #     puts 'Enter the squares for the Battleship (4 spaces):'
-  #     print "Square 1: "
-  #     @ship_squares << gets.strip.upcase
-  #     print "Square 2: "
-  #     @ship_squares << gets.strip.upcase
-  #     print "Square 3: "
-  #     @ship_squares << gets.strip.upcase
-  #     print "Square 4: "
-  #     @ship_squares << gets.strip.upcase
-  #     @p_board.valid_placement?(battleship, @ship_squares)
-  #   end
-  #
-  #   @p_board.place(battleship, @ship_squares)
-  #   system 'clear'
-  #   system 'cls'
-  #   puts @p_board.render(true)
-  #
-  #   @ship_squares = []
-  #   puts 'Enter the squares for the Carrier (5 spaces):'
-  #   print "Square 1: "
-  #   @ship_squares << gets.strip.upcase
-  #   print "Square 2: "
-  #   @ship_squares << gets.strip.upcase
-  #   print "Square 3: "
-  #   @ship_squares << gets.strip.upcase
-  #   print "Square 4: "
-  #   @ship_squares << gets.strip.upcase
-  #   print "Square 5: "
-  #   @ship_squares << gets.strip.upcase
-  #   @carrier = Ship.new('Carrier', 5)
-  #   @p_board.valid_placement?(carrier, @ship_squares)
-  #
-  #   while @p_board.valid_placement?(carrier, @ship_squares) == false
-  #     puts "#{@ship_squares} are invalid coordinates. Please try again:"
-  #     @ship_squares = []
-  #     puts 'Enter the squares for the Carrier (5 spaces):'
-  #     print "Square 1: "
-  #     @ship_squares << gets.strip.upcase
-  #     print "Square 2: "
-  #     @ship_squares << gets.strip.upcase
-  #     print "Square 3: "
-  #     @ship_squares << gets.strip.upcase
-  #     print "Square 4: "
-  #     @ship_squares << gets.strip.upcase
-  #     print "Square 5: "
-  #     @ship_squares << gets.strip.upcase
-  #     @p_board.valid_placement?(carrier, @ship_squares)
-  #   end
-  #
-  #   @p_board.place(carrier, @ship_squares)
-  #   system 'clear'
-  #   system 'cls'
-  #   puts @p_board.render(true)
-  #
-  #   puts 'Ships placed. Press any key to start'
-  #   STDIN.getch
-  # end
-
   def hit_check(com)
     if com.com_board.cells[@shot_square].render == "X" ||
-        com.com_board.cells[@shot_square].render == "H"
+        com.com_board.cells[@shot_square].render == "⊗"
       puts "Your shot on #{@shot_square} was a hit!"
     else
       puts "Your shot on #{@shot_square} was a miss."

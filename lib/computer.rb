@@ -26,7 +26,7 @@ class Computer < Player
     coords
   end
 
-  def create_ships(ships)
+  def get_ships(ships)
     @ships = ships
   end
 
@@ -38,19 +38,6 @@ class Computer < Player
     system "cls"
     puts 'I have laid out my ships on the grid.'
     # sleep 2
-  end
-
-  def com_trad_placement
-    @destroyer = Ship.new('Destroyer', 2)
-    @cruiser = Ship.new('Cruiser', 3)
-    @submarine = Ship.new('Submarine', 3)
-    @battleship = Ship.new('Battleship', 4)
-    @carrier = Ship.new('Carrier', 5)
-    @com_board.place(@destroyer, random_coords(@destroyer, @com_board))
-    @com_board.place(@cruiser, random_coords(@cruiser, @com_board))
-    @com_board.place(@submarine, random_coords(@submarine, @com_board))
-    @com_board.place(@battleship, random_coords(@battleship, @com_board))
-    @com_board.place(@cruiser, random_coords(@battleship, @com_board))
   end
 
   def turns(player)
@@ -65,7 +52,7 @@ class Computer < Player
 
   def hit_check(player)
     if player.p_board.cells[@shot_square].render == "X" ||
-        player.p_board.cells[@shot_square].render == "H"
+        player.p_board.cells[@shot_square].render == "⊗"
       puts "My shot on #{shot_square} was a hit!"
     else
       puts "My shot on #{shot_square} was a miss."
