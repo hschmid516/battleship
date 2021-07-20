@@ -5,8 +5,7 @@ require './lib/board'
 require './lib/computer'
 
 class Game
-  attr_reader :game_mode,
-              :ship_array
+  attr_reader :game_mode
 
   def initialize
     @game_mode = game_mode
@@ -29,16 +28,16 @@ class Game
   end
 
   def win_condition(player, com)
-    if player.ships.all? do |ship|
-        ship.sunk?
-      end
+    if player.ships.all? { |ship| ship.sunk? } && com.ships.all? { |ship| ship.sunk? }
+        puts puts "\nYou...tied?!"
+        puts "\nPress any key to return to main menu."
+        STDIN.getc
+    elsif player.ships.all? { |ship| ship.sunk? }
       puts "\nYou lose!"
       puts "\nPress any key to return to main menu."
       STDIN.getch
       play
-    elsif com.ships.all? do |ship|
-        ship.sunk?
-      end
+    elsif com.ships.all? { |ship| ship.sunk? }
       puts "\nYou win!"
       puts "\nPress any key to return to main menu."
       STDIN.getch
@@ -49,10 +48,8 @@ class Game
   end
 
   def hit_check(com, player)
-    # require 'pry'; binding.pry
     player.hit_check(com)
     com.hit_check(player)
-
     puts 'Press any key to continue'
     STDIN.getch
   end
