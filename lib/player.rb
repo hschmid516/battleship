@@ -1,14 +1,12 @@
 require 'io/console'
+require './lib/ship'
+require './lib/board'
 
 class Player
   attr_reader :p_board,
               :shot_square,
               :ships,
               :ship_squares
-<<<<<<< HEAD
-=======
-
->>>>>>> 82c41955c3a0bb96525234135d1de9977232d4d9
 
   def initialize(board_size)
     @p_board      = Board.new(board_size)
@@ -22,95 +20,47 @@ class Player
     @ships << Ship.new('Submarine', 2)
     if mode == 'trad'
       @ships << Ship.new('Destroyer', 2)
-<<<<<<< HEAD
-      @ships << Ship.new('Battleship', 3)
-      @ships << Ship.new('Carrier', 3)
-=======
       @ships << Ship.new('Battleship', 4)
       @ships << Ship.new('Carrier', 5)
->>>>>>> 82c41955c3a0bb96525234135d1de9977232d4d9
     end
   end
 
   def custom_ships
-<<<<<<< HEAD
-      puts 'How many ships would you like to create?'
-      num_ship = gets.strip.to_i
-      i = 1
-
-      num_ship.times do
-        puts "\nCreate ship number #{i}"
-        puts "What is the name of the ship?"
-        ship_name = gets.strip.capitalize
-        puts "What is the length of the ship?"
-        ship_length = gets.strip.to_i
-        while ship_length < 1
-          puts "Please input a positive integer."
-          ship_length = gets.strip.to_i
-        end
-
-          @ships << Ship.new(ship_name, ship_length)
-          i += 1
-        end
-      puts "All ships have been created. Press any key to continue"
-      STDIN.getch
-  end
-
-  def place_ships
-    @ships.each do |ship|
-      puts "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
-      @ship_squares = gets.strip.upcase.split
-        @p_board.valid_placement?(ship, @ship_squares)
-        while @p_board.valid_placement?(ship, @ship_squares) == false
-          puts "#{@ship_squares} are invalid coordinates. Please try again:"
-          puts "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
-          @ship_squares = gets.strip.upcase.split
-          @p_board.valid_placement?(ship, @ship_squares)
-        end
-        @p_board.place(ship, @ship_squares)
-=======
     puts 'How many ships would you like to create?'
     num_ship = gets.strip.to_i
     i = 1
+
     num_ship.times do
       puts "\nCreate ship number #{i}"
       puts "What is the name of the ship?"
       ship_name = gets.strip.capitalize
       puts "What is the length of the ship?"
       ship_length = gets.strip.to_i
-
-      while ship_length < 0
-        puts "Please input an integer."
+      while ship_length < 1
+        puts "Please input a positive integer."
         ship_length = gets.strip.to_i
       end
 
-      @ships << Ship.new(ship_name, ship_length)
-      i += 1
->>>>>>> 82c41955c3a0bb96525234135d1de9977232d4d9
-    end
-      puts "All ships have been created. Press any key to continue"
-      STDIN.getch
+        @ships << Ship.new(ship_name, ship_length)
+        i += 1
+      end
+    puts "All ships have been created. Press any key to continue"
+    STDIN.getch
   end
 
   def place_ships
     @ships.each do |ship|
       puts "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
       @ship_squares = gets.strip.upcase.split
+      @p_board.valid_placement?(ship, @ship_squares)
+      while @p_board.valid_placement?(ship, @ship_squares) == false
+        puts "#{@ship_squares} are invalid coordinates. Please try again:"
+        puts "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
+        @ship_squares = gets.strip.upcase.split
         @p_board.valid_placement?(ship, @ship_squares)
-
-<<<<<<< HEAD
-
-=======
-        while @p_board.valid_placement?(ship, @ship_squares) == false
-          puts "#{@ship_squares} are invalid coordinates. Please try again:"
-          puts "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
-          @ship_squares = gets.strip.upcase.split
-          @p_board.valid_placement?(ship, @ship_squares)
-        end
-        @p_board.place(ship, @ship_squares)
-    end
->>>>>>> 82c41955c3a0bb96525234135d1de9977232d4d9
-
+      end
+      @p_board.place(ship, @ship_squares)
+    end 
     system 'clear'
     system 'cls'
     puts @p_board.render(true)
@@ -120,11 +70,7 @@ class Player
 
   def hit_check(com)
     if com.com_board.cells[@shot_square].render == "X" ||
-<<<<<<< HEAD
         com.com_board.cells[@shot_square].render == "H"
-=======
-        com.com_board.cells[@shot_square].render == "⊗"
->>>>>>> 82c41955c3a0bb96525234135d1de9977232d4d9
       puts "Your shot on #{@shot_square} was a hit!"
     else
       puts "Your shot on #{@shot_square} was a miss."
