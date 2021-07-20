@@ -36,7 +36,7 @@ class Cell
         '❑'.colorize(:light_blue)
       end
     elsif ship.sunk?
-      'X'.colorize(:orange)
+      '▼'.colorize(:magenta)
     elsif fired_upon
       '⊗'.colorize(:red)
     elsif show_ship == true

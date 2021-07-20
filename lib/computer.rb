@@ -52,7 +52,7 @@ class Computer < Player
     end
     player.p_board.cells[@shot_square].fire_upon
     player.p_board.cells[@shot_square].render
-    @hits << @shot_square if player.p_board.cells[@shot_square].render == 'H'
+    @hits << @shot_square if player.p_board.cells[@shot_square].render == '⊗'.colorize(:red)
   end
 
   def turns(player)
@@ -62,28 +62,28 @@ class Computer < Player
       @shot_square = (((@hits.first[0].ord - 1).chr) + @hits.first[1])
       player.p_board.cells[(((@hits.first[0].ord - 1).chr) + @hits.first[1])].fire_upon
       player.p_board.cells[(((@hits.first[0].ord - 1).chr) + @hits.first[1])].render
-      if player.p_board.cells[(((@hits.first[0].ord - 1).chr) + @hits.first[1])].render == 'H'
+      if player.p_board.cells[(((@hits.first[0].ord - 1).chr) + @hits.first[1])].render == '⊗'.colorize(:red)
         @hits << (((@hits.first[0].ord - 1).chr) + @hits.first[1])
       end
     elsif player.p_board.valid_coordinate?(((@hits.first[0].ord + 1).chr) + @hits.first[1]) && player.p_board.cells[(((@hits.first[0].ord + 1).chr) + @hits.first[1])].fired_upon? == false
       @shot_square = (((@hits.first[0].ord + 1).chr) + @hits.first[1])
       player.p_board.cells[(((@hits.first[0].ord + 1).chr) + @hits.first[1])].fire_upon
       player.p_board.cells[(((@hits.first[0].ord + 1).chr) + @hits.first[1])].render
-      if player.p_board.cells[(((@hits.first[0].ord + 1).chr) + @hits.first[1])].render == 'H'
+      if player.p_board.cells[(((@hits.first[0].ord + 1).chr) + @hits.first[1])].render == '⊗'.colorize(:red)
         @hits << (((@hits.first[0].ord + 1).chr) + @hits.first[1])
       end
     elsif player.p_board.valid_coordinate?(@hits.first[0] + ((@hits.first[1].to_i - 1).to_s)) && player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))].fired_upon? == false
       @shot_square = (@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))
       player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))].fire_upon
       player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))].render
-      if player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))].render == 'H'
+      if player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))].render == '⊗'.colorize(:red)
         @hits << (@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))
       end
     elsif player.p_board.valid_coordinate?(@hits.first[0] + ((@hits.first[1].to_i + 1).to_s)) && player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))].fired_upon? == false
       @shot_square = (@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))
       player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))].fire_upon
       player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))].render
-      if player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))].render == 'H'
+      if player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))].render == '⊗'.colorize(:red)
         @hits << (@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))
       end
     else
@@ -93,13 +93,13 @@ class Computer < Player
   end
 
   def hit_check(player)
-    if player.p_board.cells[@shot_square].render == 'X' ||
-       player.p_board.cells[@shot_square].render == 'H'
+    if player.p_board.cells[@shot_square].render == '▼'.colorize(:magenta) ||
+       player.p_board.cells[@shot_square].render == '⊗'.colorize(:red)
       puts "My shot on #{shot_square} was a hit!"
     else
       puts "My shot on #{shot_square} was a miss."
     end
 
-    puts 'I sunk a ship!' if player.p_board.cells[@shot_square].render == 'X'
+    puts 'I sunk a ship!' if player.p_board.cells[@shot_square].render == '▼'.colorize(:magenta)
   end
 end

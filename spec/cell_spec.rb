@@ -86,7 +86,7 @@ RSpec.describe Cell do
     it 'renders as . by default' do
       cell_1 = Cell.new('B4')
 
-      expect(cell_1.render).to eq('.')
+      expect(cell_1.render).to eq('❑'.colorize(:light_blue))
     end
 
     it 'renders as M if fired upon and no ship' do
@@ -94,7 +94,7 @@ RSpec.describe Cell do
 
       cell_1.fire_upon
 
-      expect(cell_1.render).to eq('M')
+      expect(cell_1.render).to eq('◉'.colorize(:white))
     end
 
     it 'renders as . if not fired upon' do
@@ -102,7 +102,7 @@ RSpec.describe Cell do
       cruiser = Ship.new('Cruiser', 3)
       cell_2.place_ship(cruiser)
 
-      expect(cell_2.render).to eq('.')
+      expect(cell_2.render).to eq('❑'.colorize(:light_blue))
     end
 
     it 'renders as S if not fired upon and show_ship is true' do
@@ -110,7 +110,7 @@ RSpec.describe Cell do
       cruiser = Ship.new('Cruiser', 3)
       cell_2.place_ship(cruiser)
 
-      expect(cell_2.render(true)).to eq('S')
+      expect(cell_2.render(true)).to eq('■'.colorize(:gray))
     end
 
     it 'renders as H if ship is hit' do
@@ -120,7 +120,7 @@ RSpec.describe Cell do
       cell_2.fire_upon
 
       expect(cruiser.sunk?).to be false
-      expect(cell_2.render).to eq('H')
+      expect(cell_2.render).to eq('⊗'.colorize(:red))
     end
 
     it 'renders as X if ship is sunk' do
@@ -132,7 +132,7 @@ RSpec.describe Cell do
       cruiser.hit
 
       expect(cruiser.sunk?).to be true
-      expect(cell_2.render).to eq('X')
+      expect(cell_2.render).to eq('▼'.colorize(:orange))
     end
   end
 end
