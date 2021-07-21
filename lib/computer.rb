@@ -81,10 +81,6 @@ class Computer < Player
     @ships.each do |ship|
       @com_board.place(ship, random_coords(ship, @com_board))
     end
-    system "clear"
-    system "cls"
-    puts 'I have laid out my ships on the grid.'
-    # sleep 2
   end
 
   def first_turn(player)
@@ -146,15 +142,5 @@ class Computer < Player
       @hits.shift
       turns(player)
     end
-  end
-
-  def hit_check(player)
-    if player.p_board.cells[@shot_square].render == '▼'.colorize(:magenta) ||
-      player.p_board.cells[@shot_square].render == '⊗'.colorize(:red)
-      puts "My shot on #{shot_square} was a hit!"
-    else
-      puts "My shot on #{shot_square} was a miss."
-    end
-    puts "I sunk a ship!\n" if player.p_board.cells[@shot_square].render == '▼'.colorize(:magenta)
   end
 end

@@ -50,9 +50,19 @@ class Game
 
   def hit_check(com, player)
     player.hit_check(com)
-    com.hit_check(player)
+    com_hit_check(com, player)
     puts 'Press any key to continue'
     STDIN.getch
+  end
+
+  def com_hit_check(com, player)
+    if player.p_board.cells[com.shot_square].render == '▼'.colorize(:magenta) ||
+      player.p_board.cells[com.shot_square].render == '⊗'.colorize(:red)
+      puts "My shot on #{com.shot_square} was a hit!"
+    else
+      puts "My shot on #{com.shot_square} was a miss."
+    end
+    puts "I sunk a ship!\n" if player.p_board.cells[com.shot_square].render == '▼'.colorize(:magenta)
   end
 
   def print_slow(text)
@@ -94,6 +104,9 @@ class Game
 
   def place_ships(com, player)
     com.com_placement
+    system "clear"
+    system "cls"
+    puts 'I have laid out my ships on the grid.'
     puts display_board(player)
     player.place_ships
     puts display_boards(com, player)
