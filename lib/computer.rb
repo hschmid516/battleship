@@ -43,9 +43,9 @@ class Computer < Player
   end
 
   def first_turn(player)
-    @shot_square = player.p_board.cells.keys.sample(1).join
+    @shot_square = player.p_board.cells.keys.sample.join
     if player.p_board.cells[@shot_square].fired_upon? == true
-      @shot_square = player.p_board.cells.keys.sample(1).join until
+      @shot_square = player.p_board.cells.keys.sample.join until
         player.p_board.cells[@shot_square].fired_upon? == false
     end
     player.p_board.cells[@shot_square].fire_upon
@@ -98,6 +98,6 @@ class Computer < Player
       puts "My shot on #{shot_square} was a miss."
     end
 
-    puts 'I sunk a ship!' if player.p_board.cells[@shot_square].render == '▼'.colorize(:magenta)
+    puts "I sunk a ship!\n" if player.p_board.cells[@shot_square].render == '▼'.colorize(:magenta)
   end
 end

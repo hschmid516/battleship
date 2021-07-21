@@ -32,6 +32,7 @@ class Game
         puts puts "\nYou...tied?!"
         puts "\nPress any key to return to main menu."
         STDIN.getc
+        play
     elsif player.ships.all? { |ship| ship.sunk? }
       puts "\nYou lose!"
       puts "\nPress any key to return to main menu."
@@ -140,8 +141,8 @@ class Game
   def play
     system "clear"
     system "cls"
-    print_slow("                        Welcome to...\n")
-    print_fast("
+    print("                        Welcome to...\n")
+    print("
     ██████╗  █████╗ ████████╗████████╗██╗     ███████╗███████╗██╗  ██╗██╗██████╗
     ██╔══██╗██╔══██╗╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔════╝██║  ██║██║██╔══██╗
     ██████╔╝███████║   ██║      ██║   ██║     █████╗  ███████╗███████║██║██████╔╝

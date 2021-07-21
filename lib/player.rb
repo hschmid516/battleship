@@ -52,11 +52,10 @@ class Player
   def place_ships
     @ships.each do |ship|
       puts "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
-      puts "Type in order, separated by spaces, ie \"a1 a2 a3\""
       @ship_squares = gets.strip.upcase.split
       @p_board.valid_placement?(ship, @ship_squares)
       while @p_board.valid_placement?(ship, @ship_squares) == false
-        puts "#{@ship_squares} are invalid coordinates. Please try again:"
+        puts "\n#{@ship_squares} are invalid coordinates.\nType in order, separated by spaces, e.g. \"a1 a2 a3\"\n\nPlease try again:"
         puts "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
         @ship_squares = gets.strip.upcase.split
         @p_board.valid_placement?(ship, @ship_squares)
