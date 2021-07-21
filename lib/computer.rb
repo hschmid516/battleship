@@ -19,13 +19,58 @@ class Computer < Player
   end
 
   def random_coords(ship, board)
-    coords = @com_board.cells.keys.sample(ship.length)
-
-    if @com_board.valid_placement?(ship, coords) == false
-      coords = @com_board.cells.keys.sample(ship.length) until
-        @com_board.valid_placement?(ship, coords) == true
+    cons_lets = []
+    cons_nums = []
+    ('A'..(board.size[0] + 64).chr).each_cons(ship.length) { |letter| cons_lets << letter }
+    (1..(board.size[1])).each_cons(ship.length) { |number| cons_nums << number }
+    cons_num_string = cons_nums.map do |nums|
+      nums.map do |num|
+        num.to_s
+      end
     end
-    coords
+
+    same_nums = []
+    (1..(board.size[1])).map do |num|
+      ship.length.times { same_nums << num}
+    end
+
+    same_nums_ary = same_nums.each_slice(ship.length).to_a
+
+    same_nums_str_ary = same_nums_ary.map do |nums|
+      nums.map do |num|
+        num.to_s
+      end
+    end
+
+    same_lets = []
+    ('A'..(board.size[0] + 64).chr).map do |let|
+      ship.length.times { same_lets << let}
+    end
+
+    same_lets_ary = same_lets.each_slice(ship.length).to_a
+
+    coords_1 = (same_lets_ary.map do |ary1|
+      cons_num_string.map do |ary2|
+        ary1.zip(ary2)
+      end
+    end).flatten(2)
+
+    coords_1_ary = (coords_1.map { |coord| coord.join }).each_slice(ship.length).to_a
+
+    coords_2 = (cons_lets.map do |ary1|
+      same_nums_str_ary.map do |ary2|
+        ary1.zip(ary2)
+      end
+    end).flatten(2)
+
+    coords_2_ary = coords_2.map { |coord| coord.join }.each_slice(ship.length).to_a
+
+    placement = (coords_1_ary + coords_2_ary).sample
+    if @com_board.valid_placement?(ship, placement) == false
+      placement = (coords_1_ary + coords_2_ary).sample until
+        @com_board.valid_placement?(ship, placement)  == true
+    end
+    placement
   end
 
   def get_ships(ships)
@@ -43,9 +88,9 @@ class Computer < Player
   end
 
   def first_turn(player)
-    @shot_square = player.p_board.cells.keys.sample.join
+    @shot_square = player.p_board.cells.keys.sample
     if player.p_board.cells[@shot_square].fired_upon? == true
-      @shot_square = player.p_board.cells.keys.sample.join until
+      @shot_square = player.p_board.cells.keys.sample until
         player.p_board.cells[@shot_square].fired_upon? == false
     end
     player.p_board.cells[@shot_square].fire_upon
@@ -91,13 +136,11 @@ class Computer < Player
   end
 
   def hit_check(player)
-
     if player.p_board.cells[@shot_square].render == '▼'.colorize(:magenta) || player.p_board.cells[@shot_square].render == '⊗'.colorize(:red)
       puts "My shot on #{shot_square} was a hit!"
     else
       puts "My shot on #{shot_square} was a miss."
     end
-
     puts "I sunk a ship!\n" if player.p_board.cells[@shot_square].render == '▼'.colorize(:magenta)
   end
 end
