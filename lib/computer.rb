@@ -98,37 +98,50 @@ class Computer < Player
     @hits << @shot_square if player.p_board.cells[@shot_square].render == '⊗'.colorize(:red)
   end
 
+  def sq_up
+    ((@hits.first[0].ord - 1).chr) + @hits.first[1]
+  end
+
+  def sq_down
+    ((@hits.first[0].ord + 1).chr) + @hits.first[1]
+  end
+
+  def sq_left
+    @hits.first[0] + ((@hits.first[1].to_i - 1).to_s)
+  end
+
+  def sq_right
+    @hits.first[0] + ((@hits.first[1].to_i + 1).to_s)
+  end
+
+  def valid?(player, coord)
+    player.p_board.valid_coordinate?(coord)
+  end
+
+  def cells(player, coord)
+    player.p_board.cells[coord]
+  end
+
+  def shot(player, coord)
+    @shot_square = coord
+    cells(player, coord).fire_upon
+    cells(player, coord).render
+    if cells(player, coord).render == '⊗'.colorize(:red)
+      @hits << coord
+    end
+  end
+
   def turns(player)
     if @hits.first.nil?
       first_turn(player)
-    elsif player.p_board.valid_coordinate?(((@hits.first[0].ord - 1).chr) + @hits.first[1]) && player.p_board.cells[(((@hits.first[0].ord - 1).chr) + @hits.first[1])].fired_upon? == false
-      @shot_square = (((@hits.first[0].ord - 1).chr) + @hits.first[1])
-      player.p_board.cells[(((@hits.first[0].ord - 1).chr) + @hits.first[1])].fire_upon
-      player.p_board.cells[(((@hits.first[0].ord - 1).chr) + @hits.first[1])].render
-      if player.p_board.cells[(((@hits.first[0].ord - 1).chr) + @hits.first[1])].render == '⊗'.colorize(:red)
-        @hits << (((@hits.first[0].ord - 1).chr) + @hits.first[1])
-      end
-    elsif player.p_board.valid_coordinate?(((@hits.first[0].ord + 1).chr) + @hits.first[1]) && player.p_board.cells[(((@hits.first[0].ord + 1).chr) + @hits.first[1])].fired_upon? == false
-      @shot_square = (((@hits.first[0].ord + 1).chr) + @hits.first[1])
-      player.p_board.cells[(((@hits.first[0].ord + 1).chr) + @hits.first[1])].fire_upon
-      player.p_board.cells[(((@hits.first[0].ord + 1).chr) + @hits.first[1])].render
-      if player.p_board.cells[(((@hits.first[0].ord + 1).chr) + @hits.first[1])].render == '⊗'.colorize(:red)
-        @hits << (((@hits.first[0].ord + 1).chr) + @hits.first[1])
-      end
-    elsif player.p_board.valid_coordinate?(@hits.first[0] + ((@hits.first[1].to_i - 1).to_s)) && player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))].fired_upon? == false
-      @shot_square = (@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))
-      player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))].fire_upon
-      player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))].render
-      if player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))].render == '⊗'.colorize(:red)
-        @hits << (@hits.first[0] + ((@hits.first[1].to_i - 1).to_s))
-      end
-    elsif player.p_board.valid_coordinate?(@hits.first[0] + ((@hits.first[1].to_i + 1).to_s)) && player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))].fired_upon? == false
-      @shot_square = (@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))
-      player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))].fire_upon
-      player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))].render
-      if player.p_board.cells[(@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))].render == '⊗'.colorize(:red)
-        @hits << (@hits.first[0] + ((@hits.first[1].to_i + 1).to_s))
-      end
+    elsif valid?(player, sq_up) && cells(player, sq_up).fired_upon? == false
+      shot(player, sq_up)
+    elsif valid?(player, sq_down) && cells(player, sq_down).fired_upon? == false
+      shot(player, sq_down)
+    elsif valid?(player, sq_left) && cells(player, sq_left).fired_upon? == false
+      shot(player, sq_left)
+    elsif valid?(player, sq_right) && cells(player, sq_right).fired_upon? == false
+      shot(player, sq_right)
     else
       @hits.shift
       turns(player)
@@ -136,7 +149,8 @@ class Computer < Player
   end
 
   def hit_check(player)
-    if player.p_board.cells[@shot_square].render == '▼'.colorize(:magenta) || player.p_board.cells[@shot_square].render == '⊗'.colorize(:red)
+    if player.p_board.cells[@shot_square].render == '▼'.colorize(:magenta) ||
+      player.p_board.cells[@shot_square].render == '⊗'.colorize(:red)
       puts "My shot on #{shot_square} was a hit!"
     else
       puts "My shot on #{shot_square} was a miss."
